@@ -25,24 +25,24 @@ function Navbar() {
         {/* Navigation Links */}
         {/* Navigation Links */}
 
-<ul className="flex items-center gap-8 font-medium text-gray-700">
-  {navLinks.map((item) => {
-    const Icon = item.icon;
+        <ul className="flex items-center gap-8 font-medium text-gray-700">
+          {navLinks.map((item) => {
+            const Icon = item.icon;
 
-    return (
-      <li key={item.name}>
-        <Link
-          to={item.path}
-          className="group flex items-center gap-2 transition hover:text-blue-600"
-        >
-          <Icon className="text-sm transition group-hover:scale-110" />
+            return (
+              <li key={item.name}>
+                <Link
+                  to={item.path}
+                  className="group flex items-center gap-2 transition hover:text-blue-600"
+                >
+                  <Icon className="text-sm transition group-hover:scale-110" />
 
-          {item.name}
-        </Link>
-      </li>
-    );
-  })}
-</ul>
+                  {item.name}
+                </Link>
+              </li>
+            );
+          })}
+        </ul>
 
         {/* Buttons */}
 

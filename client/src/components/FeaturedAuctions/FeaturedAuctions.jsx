@@ -1,15 +1,111 @@
+// Import reusable Auction Card component
 import AuctionCard from "../AuctionCard/AuctionCard";
+
+// Import all auction data
 import featuredAuctions from "../../data/featuredAuctions";
+
+// Icons
 import { FaFire } from "react-icons/fa";
 import { FiArrowRight } from "react-icons/fi";
 
-function FeaturedAuctions() {
+// Receive searchTerm from Home.jsx
+function FeaturedAuctions({ // Search text entered by the user
+  searchTerm,
+
+  // Selected category from the dropdown
+  selectedCategory,
+
+  // Selected sorting option
+  selectedSort, }) {
+
+  // ==========================================
+  // Filter the auctions according to the search
+  
+  // filter() checks every auction one by one.
+  
+  // includes() returns true if the title
+  // contains the searched text.
+  
+  // toLowerCase() makes the search
+  // case-insensitive.
+  // ==========================================
+
+  // ===================================================
+// STEP 1 : Filter auctions according to
+//           search text AND selected category
+// ===================================================
+
+const filteredAuctions = featuredAuctions.filter((auction) => {
+
+  // -----------------------------------------
+  // Check if the product title contains
+  // the searched text.
+  // -----------------------------------------
+
+  const matchesSearch = auction.title
+    .toLowerCase()
+    .includes(searchTerm.toLowerCase());
+
+  // -----------------------------------------
+  // Check if category matches.
+  //
+  // If "All Categories" is selected,
+  // every auction should be shown.
+  // -----------------------------------------
+
+  const matchesCategory =
+    selectedCategory === "All Categories" ||
+    auction.category === selectedCategory;
+
+  // -----------------------------------------
+  // Show the auction only if BOTH conditions
+  // are true.
+  // -----------------------------------------
+
+  return matchesSearch && matchesCategory;
+});
+
+// ===================================================
+// Sort the filtered auctions
+//
+// [...filteredAuctions] creates a copy.
+// We never sort the original array directly.
+// ===================================================
+
+const sortedAuctions = [...filteredAuctions].sort((a, b) => {
+
+  // Highest Bid
+
+  if (selectedSort === "Highest Bid") {
+
+    return b.currentBid - a.currentBid;
+
+  }
+
+  // Lowest Bid
+
+  if (selectedSort === "Lowest Bid") {
+
+    return a.currentBid - b.currentBid;
+
+  }
+
+  // Ending Soon
+
+  // We'll keep the current order for now.
+  // Later, when backend time data is available,
+  // we can sort using the auction end time.
+
+  return 0;
+
+});
+
   return (
     <section className="bg-slate-50 py-24">
 
       <div className="mx-auto max-w-[1500px] px-8">
 
-        {/* Badge */}
+        {/* Trending Badge */}
 
         <div className="flex justify-center">
 
@@ -30,7 +126,6 @@ function FeaturedAuctions() {
         <h2 className="mt-6 text-center text-6xl font-extrabold text-slate-900">
 
           Featured Auctions
-          
 
         </h2>
 
@@ -40,7 +135,7 @@ function FeaturedAuctions() {
 
         </p>
 
-        {/* View All */}
+        {/* View All Button */}
 
         <div className="mt-8 flex justify-end">
 
@@ -54,18 +149,45 @@ function FeaturedAuctions() {
 
         </div>
 
-        {/* Cards */}
+        {/* ==========================================
+            Display Auction Cards
+
+            If no auctions match the search,
+            show a not found message.
+        ========================================== */}
 
         <div className="mt-14 grid grid-cols-4 gap-8">
 
-          {featuredAuctions.map((auction) => (
+          {sortedAuctions.length > 0 ? (
 
-            <AuctionCard
-              key={auction.id}
-              {...auction}
-            />
+            filteredAuctions.map((auction) => (
 
-          ))}
+              <AuctionCard
+                key={auction.id}
+                {...auction}
+              />
+
+            ))
+
+          ) : (
+
+            <div className="col-span-4 text-center">
+
+              <h3 className="text-3xl font-bold text-slate-700">
+
+                No Auction Found
+
+              </h3>
+
+              <p className="mt-3 text-slate-500">
+
+                Try searching for another product.
+
+              </p>
+
+            </div>
+
+          )}
 
         </div>
 
