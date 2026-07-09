@@ -9,4 +9,4 @@ A modern real-time online auction platform built using the MERN Stack.
 - Express.js
 - MongoDB
 
-Status: 🚧 Under Development
+Status: Under Development
