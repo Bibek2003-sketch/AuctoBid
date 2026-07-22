@@ -1,4 +1,4 @@
-import authImage from "../../assets/images/image2.png";
+import authImage from "../../assets/images/hero/image2.png";
 
 function AuthLayout({ children }) {
   return (

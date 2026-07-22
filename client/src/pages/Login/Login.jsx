@@ -1,10 +1,13 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+// axios
+import API from "../../api/axios";
 import { FaEnvelope, FaArrowLeft } from "react-icons/fa";
 
 import InputField from "../../components/InputField/InputField";
 import PasswordField from "../../components/PasswordField/PasswordField";
 import AuthLayout from "../../components/AuthLayout/AuthLayout";
+import { toast } from "react-toastify";
 
 function Login() {
   // ==========================
@@ -22,6 +25,9 @@ function Login() {
 
   // Store validation errors
   const [errors, setErrors] = useState({});
+
+  // loading state
+  const [loading, setLoading] = useState(false);
 
   // ==========================
   // Handle Input Change
@@ -67,23 +73,42 @@ function Login() {
 
     return Object.keys(newErrors).length === 0;
   };
+  // create navigate
+  const navigate = useNavigate();
 
   // ==========================
   // Submit
   // ==========================
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const isValid = validateForm();
-
-    console.log("Validation:", isValid);
-    console.log("Errors:", errors);
-    console.table(formData);
-
-    if (!isValid) {
-      console.log("Validation Failed");
+    if (!validateForm()) {
       return;
+    }
+
+    try {
+      setLoading(true);
+
+      const response = await API.post("/users/login", {
+        email: formData.email,
+        password: formData.password,
+      });
+
+      // Save JWT Token
+      localStorage.setItem("token", response.data.token);
+
+      // Save logged-in user
+      localStorage.setItem("user", JSON.stringify(response.data.user));
+
+      toast.success("Login Successful");
+
+      // Redirect to Dashboard
+      navigate("/dashboard");
+    } catch (error) {
+      toast.error(error.response?.data?.message || "Login Failed");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -145,7 +170,7 @@ function Login() {
             type="submit"
             className="w-full rounded-xl bg-blue-600 py-3 text-lg font-semibold text-white transition hover:bg-blue-700"
           >
-            Sign-In
+            {loading ? "Signing In..." : "Sign-In"}
           </button>
         </form>
 

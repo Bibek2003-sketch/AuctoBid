@@ -1,11 +1,17 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { FaUser, FaEnvelope, FaPhone } from "react-icons/fa";
 import { FaArrowLeft } from "react-icons/fa";
 
 import InputField from "../../components/InputField/InputField";
 import PasswordField from "../../components/PasswordField/PasswordField";
 import AuthLayout from "../../components/AuthLayout/AuthLayout";
+// ==========================================
+// Axios API
+// ==========================================
+
+import API from "../../api/axios";
+import {toast} from "react-toastify"
 
 function Register() {
   // ==========================
@@ -29,6 +35,16 @@ function Register() {
 
   // Store validation errors
   const [errors, setErrors] = useState({});
+
+  // Loading State
+
+  const [loading, setLoading] = useState(false);
+
+  // ==========================================
+  // Navigation
+  // ==========================================
+
+  const navigate = useNavigate();
 
   // ==========================
   // Handle Input Change
@@ -100,24 +116,63 @@ function Register() {
   // Submit
   // ==========================
 
-  const handleSubmit = (e) => {
+  // ==========================================
+  // Submit Form
+  // ==========================================
+
+  const handleSubmit = async (e) => {
+    // Prevent page refresh
     e.preventDefault();
 
-    console.log("===============");
-    console.log("Button Clicked");
+    // Validate form first
 
-    const isValid = validateForm();
-
-    console.log("Validation:", isValid);
-    console.log("Errors:", errors);
-    console.table(formData);
-
-    if (!isValid) {
-      console.log("Validation Failed");
+    if (!validateForm()) {
       return;
     }
 
-    console.log("Registration Successful");
+    try {
+      // Start loading
+
+      setLoading(true);
+
+      // Send data to backend
+
+      const response = await API.post("/users/register", {
+        name: formData.name,
+
+        email: formData.email,
+
+        password: formData.password,
+      });
+
+      // Show success message
+
+      toast.success(response.data.message);
+
+      // Clear form
+
+      setFormData({
+        name: "",
+
+        email: "",
+
+        phone: "",
+
+        password: "",
+
+        confirmPassword: "",
+      });
+
+      // Redirect to Login Page
+
+      navigate("/login");
+    } catch (error) {
+      toast.error(error.response?.data?.message || "Registration Failed");
+    } finally {
+      // Stop loading
+
+      setLoading(false);
+    }
   };
   // Helper function for border color
   const inputClass = (field) =>
@@ -142,7 +197,9 @@ function Register() {
             <FaArrowLeft className="text-sm" />
             Back to Home
           </Link>
-          <h1 className="text-4xl font-bold text-slate-900">Create Account</h1>
+          <h1 className="text-4xl font-bold text-slate-900">
+            {loading ? "Creating Account..." : "Create Account"}
+          </h1>
 
           <p className="mt-3 text-slate-500">
             Join AuctoBid and start bidding today.
