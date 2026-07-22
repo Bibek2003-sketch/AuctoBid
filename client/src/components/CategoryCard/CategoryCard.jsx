@@ -1,15 +1,52 @@
+// =======================================================
+// React Router
+// =======================================================
 
-function CategoryCard({name, auctions, icon}) {
-    const Icon = icon
-    return(
-        <div className="rounded-2xl bg-white p-8 shadow-md transition duration-300 hover:-translate-y-2 hover:shadow-xl">
-            <div className="text-5xl"><Icon /></div>
+import { Link } from "react-router-dom";
 
-            <h3 className="mt-6 text-2xl font-bold text-slate-800">{name}</h3>
+// =======================================================
+// Reusable Category Card
+// =======================================================
 
-            <p className="mt-3 text-slate-500">{auctions} Live Auctions</p>
-        </div>
-    )
+function CategoryCard({
+  name,
+  description,
+  icon: Icon,
+}) {
+  return (
+
+    <Link
+      to={`/auctions?category=${name}`}
+      className="group rounded-3xl bg-white p-8 shadow-lg transition-all duration-300 hover:-translate-y-3 hover:shadow-2xl"
+    >
+
+      {/* Category Icon */}
+
+      <div className="flex h-20 w-20 items-center justify-center rounded-full bg-blue-100 text-4xl text-blue-600 transition group-hover:bg-blue-600 group-hover:text-white">
+
+        <Icon />
+
+      </div>
+
+      {/* Category Name */}
+
+      <h2 className="mt-6 text-2xl font-bold text-slate-800">
+
+        {name}
+
+      </h2>
+
+      {/* Description */}
+
+      <p className="mt-3 text-slate-500">
+
+        {description}
+
+      </p>
+
+    </Link>
+
+  );
 }
 
-export default CategoryCard
+export default CategoryCard;

@@ -1,6 +1,6 @@
 import { useParams, Link } from "react-router-dom";
 import { FaArrowLeft, FaClock, FaGavel, FaUser } from "react-icons/fa";
-import auctionDetails from "../../data/AuctionDetails";
+import auctions from "../../data/auctions"
 
 function AuctionDetails() {
 
@@ -8,7 +8,7 @@ function AuctionDetails() {
   const { id } = useParams();
 
   // Find the auction with matching id
-  const auction = auctionDetails.find(
+  const auction = auctions.find(
     (item) => item.id === Number(id)
   );
 

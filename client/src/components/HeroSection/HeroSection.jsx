@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react";
 import "./HeroSection.css";
 
-import image2 from "../../assets/images/image2.png";
-import WatchHero from "../../assets/images/WatchHero.png";
-import furniture from "../../assets/images/furniture.png";
-import Macbook from "../../assets/images/Macbook.png";
+import image2 from "../../assets/images/hero/image2.png";
+import WatchHero from "../../assets/images/hero/WatchHero.png";
+import furniture from "../../assets/images/hero/furniture.png";
+import Macbook from "../../assets/images/hero/Macbook.png";
 
 import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
 

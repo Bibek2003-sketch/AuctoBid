@@ -20,10 +20,10 @@ function AuctionSearch({
 }) {
   return (
     <section className="sticky top-0 z-20">
-      <div className="mx-auto max-w-[1500px] rounded-3xl bg-white p-8 shadow-2xl">
+      <div className="mx-auto my-auto max-w-[1500px] max-h-[180px] rounded-3xl bg-white p-8 shadow-2xl">
         {/* Heading */}
 
-        <div className="mb-6">
+        <div className="mb-3">
           <h2 className="text-3xl font-bold text-slate-800">
             Find Your Perfect Auction
           </h2>
@@ -42,9 +42,7 @@ function AuctionSearch({
             <input
               type="text"
               placeholder="Search products..."
-              /* React controls the value */
               value={searchTerm}
-              /* Update Home state whenever the user types */
               onChange={(e) => setSearchTerm(e.target.value)}
               className="w-full px-3 py-4 outline-none"
             />

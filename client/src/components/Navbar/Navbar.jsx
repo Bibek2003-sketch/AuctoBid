@@ -1,16 +1,16 @@
 import "./Navbar.css";
 import { Link } from "react-router-dom";
 import { FaArrowRight } from "react-icons/fa";
-import logo from "../../assets/images/logo4.png";
+import logo from "../../assets/images/logo/Auctobidlogo.png";
 import { FaSearch } from "react-icons/fa";
 import { FaHome, FaGavel, FaThLarge, FaInfoCircle } from "react-icons/fa";
 import navLinks from "../../data/navLinks";
 
 function Navbar() {
   return (
-    <nav className="relative left-0 z-50 w-full bg-white backdrop-blur-none shadow-lg ">
+    <nav className="relative left-0 z-50 w-full bg-white-200 backdrop-blur-none shadow-lg ">
       {" "}
-      <div className="flex items-center justify-between px-8 py-2">
+      <div className="flex rounded-50 items-center justify-between px-8 py-2">
         {/* Logo */}
         <div className="flex items-center cursor-pointer w-">
           <img
@@ -18,11 +18,12 @@ function Navbar() {
             alt="AuctoBid Logo"
             className="h-14 w-auto object-contain"
           />
+          <div className="text-blue-950 font-bold text-lg">AuctoBid</div>
         </div>
 
         <div className="relative w-1/3"></div>
 
-        {/* Navigation Links */}
+        
         {/* Navigation Links */}
 
         <ul className="flex items-center gap-8 font-medium text-gray-700">
