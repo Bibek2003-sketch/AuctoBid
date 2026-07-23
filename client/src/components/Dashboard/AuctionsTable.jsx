@@ -136,9 +136,12 @@ function AuctionsTable() {
                 </td>
                 <td className="dark:text-white">
                   <div className="flex justify-center gap-3">
-                    <button className="rounded-lg bg-blue-100 p-2 text-blue-600 cursor-pointer">
+                    <Link
+                      to={`/edit-auction/${auction._id}`}
+                      className="rounded-lg bg-blue-100 p-2 text-blue-600 cursor-pointer"
+                    >
                       <FaEdit />
-                    </button>
+                    </Link>
 
                     <button
                       onClick={() => handleDelete(auction._id)}

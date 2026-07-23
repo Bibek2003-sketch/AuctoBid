@@ -7,8 +7,9 @@ import AuctionDetails from "../pages/AuctionDetails/AuctionDetails";
 import Auctions from "../pages/Auctions/Auctions";
 import Categories from "../pages/Categories/Categories";
 import About from "../pages/About/About";
-import Dashboard from "../pages/Dashboard/Dashboard"
+import Dashboard from "../pages/Dashboard/Dashboard";
 import CreateAuction from "../pages/CreateAuction/CreateAuction";
+import Profile from "../pages/profile/profile";
 
 function AppRoutes() {
   return (
@@ -22,6 +23,9 @@ function AppRoutes() {
       <Route path="/about" element={<About />} />
       <Route path="/dashboard" element={<Dashboard />} />
       <Route path="/create-auction" element={<CreateAuction />} />
+      <Route path="/edit-auction/:id" element={<CreateAuction />} />
+      <Route path="/profile" element={<Profile />} />
+
     </Routes>
   );
 }

@@ -7,7 +7,7 @@ export const getAllAuctions = async () => {
 }
 
 // get single Auction
-export const getAuctionById = async () => {
+export const getAuctionById = async (id) => {
     const response = await API.get(`/auctions/${id}`)
     return response.data
 }
@@ -48,6 +48,23 @@ export const deleteAuction = async (id) => {
       Authorization: `Bearer ${token}`,
     },
   });
+
+  return response.data;
+};
+
+// Update Auction
+export const updateAuction = async (id, auctionData) => {
+  const token = localStorage.getItem("token");
+
+  const response = await API.put(
+    `/auctions/${id}`,
+    auctionData,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
 
   return response.data;
 };
