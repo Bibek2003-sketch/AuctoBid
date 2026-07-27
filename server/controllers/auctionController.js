@@ -224,5 +224,39 @@ const getMyAuctions = async (req, res) => {
   }
 }
 
+const getDashboardStats = async (req, res) => {
+  try {
+    // find all auctions created by the logged-in seller
+    const auctions = await Auction.find({
+      seller: req.user.id,
+    })
+
+    // total auctions
+    const totalAuctions = auctions.length
+
+    // Active Auctions
+    const activeAuctions = auctions.filter((auction) => auction.status === "active").length
+
+    // revenue
+    const revenue = auctions.reduce((total, auction) => total + auction.currentBid, 0)
+
+    // total Bids 
+    res.status(200).json({
+      success: true,
+      stats: {
+        totalAuctions,
+        activeAuctions,
+        totalBids:0,
+        revenue,
+      }
+    })
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    })
+  }
+}
+
 module.exports = { createAuction, getAllAuctions, 
-  getAuctionById, updateAuction, deleteAuction, getMyAuctions };
+  getAuctionById, updateAuction, deleteAuction, getMyAuctions, getDashboardStats };

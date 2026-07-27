@@ -68,3 +68,17 @@ export const updateAuction = async (id, auctionData) => {
 
   return response.data;
 };
+
+//dashboard statistics
+export const getDashboardStats = async () => {
+  const token = localStorage.getItem("token")
+
+  const response = await API.get('/auctions/dashboard-stats', {
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  })
+
+  return response.data
+  
+}

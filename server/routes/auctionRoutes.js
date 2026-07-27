@@ -7,7 +7,8 @@ const {
   getAuctionById,
   updateAuction,
   deleteAuction,
-  getMyAuctions
+  getMyAuctions,
+  getDashboardStats
 } = require("../controllers/auctionController");
 
 // create auction route
@@ -17,12 +18,14 @@ router.get("/", getAllAuctions);
 
 router.get('/my-auctions', protect, getMyAuctions)
 
+router.get('/dashboard-stats', protect, getDashboardStats)
 
 router.get("/:id", getAuctionById)
 
 router.put('/:id', protect, updateAuction)
 
 router.delete('/:id', protect, deleteAuction)
+
 
 
 module.exports = router;

@@ -21,7 +21,7 @@ function AuctionGrid({ auctions }) {
 
       {auctions.map((auction) => (
         <AuctionCard
-          key={auction.id}
+          key={auction._id}
           {...auction}
         />
       ))}

@@ -12,7 +12,7 @@ import { Link } from "react-router-dom";
 import { useState } from "react";
 import CountdownTimer from "../CountdownTimer/CountdownTimer";
 
-function AuctionCard({ id, image, title, currentBid, bids, timeLeft }) {
+function AuctionCard({ id, image, title, currentBid, bids, endTime }) {
   // ===============================================
   // Wishlist State
   //
@@ -24,6 +24,7 @@ function AuctionCard({ id, image, title, currentBid, bids, timeLeft }) {
   // ===============================================
 
   const [isWishlisted, setIsWishlisted] = useState(false);
+  console.log("timeLeft:", endTime);
   return (
     <Link to={`/auction/${id}`} className="block">
       <div className="group overflow-hidden rounded-3xl bg-white shadow-lg transition-all duration-300 hover:-translate-y-3 hover:shadow-2xl">
@@ -80,7 +81,7 @@ function AuctionCard({ id, image, title, currentBid, bids, timeLeft }) {
             <FiClock />
 
             {/* Live Countdown */}
-            <CountdownTimer timeLeft={timeLeft} />
+            <CountdownTimer timeLeft={endTime} />
           </div>
         </div>
 

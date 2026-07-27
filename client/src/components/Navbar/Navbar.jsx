@@ -63,7 +63,7 @@ function Navbar() {
             to="/register"
             className="flex items-center gap-2 rounded-full bg-gradient-to-r from-blue-600 to-blue-700 px-7 py-2.5 font-semibold text-white shadow-md transition-all duration-300 hover:-translate-y-1 hover:shadow-xl"
           >
-            Create Account
+            Sign Up
             <FaArrowRight className="text-sm transition-transform duration-300 group-hover:translate-x-1" />
           </Link>
         </div>
