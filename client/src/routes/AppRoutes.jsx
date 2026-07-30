@@ -10,6 +10,9 @@ import About from "../pages/About/About";
 import Dashboard from "../pages/Dashboard/Dashboard";
 import CreateAuction from "../pages/CreateAuction/CreateAuction";
 import Profile from "../pages/profile/profile";
+import ForgotPassword from "../pages/ForgotPassword/ForgotPassword";
+import ResetPassword from "../Resetpassword/ResetPassword";
+import MyBids from "../pages/MyBids/MyBids";
 
 function AppRoutes() {
   return (
@@ -25,6 +28,9 @@ function AppRoutes() {
       <Route path="/create-auction" element={<CreateAuction />} />
       <Route path="/edit-auction/:id" element={<CreateAuction />} />
       <Route path="/profile" element={<Profile />} />
+      <Route path="/forgot-password" element={<ForgotPassword />} />
+      <Route path="/reset-password/:token" element={<ResetPassword />} />
+      <Route path="/my-bids" element={<MyBids />} />
 
     </Routes>
   );

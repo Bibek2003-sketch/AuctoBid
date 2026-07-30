@@ -6,29 +6,26 @@ import { FiFilter } from "react-icons/fi";
 
 // Receive data from Home.jsx using props
 function AuctionSearch({
-  // Search state
   searchTerm,
   setSearchTerm,
 
-  // Category state
   selectedCategory,
   setSelectedCategory,
 
-  // Sorting state
   selectedSort,
   setSelectedSort,
 }) {
   return (
     <section className="sticky top-0 z-20">
-      <div className="mx-auto my-auto max-w-[1500px] max-h-[180px] rounded-3xl bg-white p-8 shadow-2xl">
+      <div className="mx-auto my-auto max-w-1500px rounded-3xl bg-white p-8 shadow-2xl shadow-amber-400 transition-colors duration-300 dark:bg-slate-900 dark:shadow-black/30">
         {/* Heading */}
 
         <div className="mb-3">
-          <h2 className="text-3xl font-bold text-slate-800">
+          <h2 className="text-3xl font-bold text-slate-900 dark:text-white">
             Find Your Perfect Auction
           </h2>
 
-          <p className="mt-2 text-slate-500">
+          <p className="mt-2 text-slate-600 dark:text-slate-400">
             Search thousands of live auctions across India.
           </p>
         </div>
@@ -36,53 +33,39 @@ function AuctionSearch({
         <div className="grid grid-cols-5 gap-5">
           {/* Search Input */}
 
-          <div className="col-span-2 flex items-center rounded-xl border border-gray-300 px-4">
-            <FaSearch className="text-gray-400" />
+          <div className="col-span-2 flex items-center rounded-xl border border-gray-300 bg-white px-4 transition-colors duration-300 dark:border-slate-700 dark:bg-slate-800">
+            <FaSearch className="text-gray-400 dark:text-slate-400" />
 
             <input
               type="text"
               placeholder="Search products..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full px-3 py-4 outline-none"
+              className="w-full bg-transparent px-3 py-4 text-slate-900 outline-none placeholder:text-gray-400 dark:text-white dark:placeholder:text-slate-500"
             />
           </div>
 
           {/* Category Dropdown */}
 
-          {/* =====================================
-    Category Dropdown
-    React controls the selected option
-===================================== */}
-
           <select
-            // Current selected category
             value={selectedCategory}
-            // Update state whenever user changes category
             onChange={(e) => setSelectedCategory(e.target.value)}
-            className="rounded-xl border border-gray-300 px-4 py-4 outline-none"
+            className="rounded-xl border border-gray-300 bg-white px-4 py-4 text-slate-900 outline-none transition-colors duration-300 dark:border-slate-700 dark:bg-slate-800 dark:text-white"
           >
             <option>All Categories</option>
-
             <option>Electronics</option>
-
             <option>Vehicles</option>
-
             <option>Fashion</option>
-
             <option>Furniture</option>
-
             <option>Collectibles</option>
           </select>
 
           {/* Sorting Dropdown */}
 
           <select
-            // Current selected sorting option
             value={selectedSort}
-            // Update sorting whenever user selects another option
             onChange={(e) => setSelectedSort(e.target.value)}
-            className="rounded-xl border border-gray-300 px-4 py-4 outline-none"
+            className="rounded-xl border border-gray-300 bg-white px-4 py-4 text-slate-900 outline-none transition-colors duration-300 dark:border-slate-700 dark:bg-slate-800 dark:text-white"
           >
             <option>Ending Soon</option>
             <option>Newest</option>

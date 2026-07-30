@@ -1,4 +1,4 @@
-import ThemeToggle from '/home/bibek/Desktop/projects/SIPFinalProject/AuctoBid/client/src/pages/Dashboard/ThemeToggle.jsx'
+import ThemeToggle from '../../pages/Dashboard/ThemeToggle'
 
 function DashboardHeader() {
   const user = JSON.parse(localStorage.getItem("user"));

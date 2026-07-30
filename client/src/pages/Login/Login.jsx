@@ -8,6 +8,7 @@ import InputField from "../../components/InputField/InputField";
 import PasswordField from "../../components/PasswordField/PasswordField";
 import AuthLayout from "../../components/AuthLayout/AuthLayout";
 import { toast } from "react-toastify";
+import ForgotPassword from "../ForgotPassword/ForgotPassword";
 
 function Login() {
   // ==========================
@@ -104,7 +105,7 @@ function Login() {
       toast.success("Login Successful");
 
       // Redirect to Dashboard
-      navigate("/dashboard");
+      navigate("/");
     } catch (error) {
       toast.error(error.response?.data?.message || "Login Failed");
     } finally {
@@ -132,7 +133,7 @@ function Login() {
           </p>
         </div>
 
-        <form onSubmit={handleSubmit} className="mt-8 space-y-5">
+        <form onSubmit={handleSubmit} className="mt-8 space-y-5  dark:bg-white">
           {/* Email */}
 
           <InputField

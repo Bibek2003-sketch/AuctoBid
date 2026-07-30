@@ -9,7 +9,6 @@ import { Link } from "react-router-dom";
 
 // Receive searchTerm from Home.jsx
 function FeaturedAuctions({
- 
   // Search text entered by the user
   searchTerm,
 
@@ -19,29 +18,28 @@ function FeaturedAuctions({
   // Selected sorting option
   selectedSort,
 }) {
-
-   // store auctions from backend
-  const [auctions, setAuctions] = useState([])
+  // store auctions from backend
+  const [auctions, setAuctions] = useState([]);
 
   // Loading state
-  const [loading, setLoading] = useState(true)
+  const [loading, setLoading] = useState(true);
 
   // Fetch Auctions from backend
 
   useEffect(() => {
     fetchAuctions();
-  }, [])
+  }, []);
 
   const fetchAuctions = async () => {
     try {
-      const data = await getAllAuctions()
-      setAuctions(data.auctions)
-    }catch(error) {
-      console.log(error)
+      const data = await getAllAuctions();
+      setAuctions(data.auctions);
+    } catch (error) {
+      console.log(error);
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }
+  };
   // ==========================================
   // Filter the auctions according to the search
 
@@ -118,17 +116,15 @@ function FeaturedAuctions({
   });
 
   if (loading) {
-  return (
-    <section className="py-24 text-center">
-      <h2 className="text-2xl font-semibold">
-        Loading Auctions...
-      </h2>
-    </section>
-  );
-}
+    return (
+      <section className="bg-slate-50 py-24 text-center dark:bg-slate-950">
+        <h2 className="text-2xl font-semibold">Loading Auctions...</h2>
+      </section>
+    );
+  }
 
   return (
-    <section className="bg-slate-50 py-24">
+    <section className="bg-slate-50 py-24 transition-colors duration-300 dark:bg-slate-950">
       <div className="mx-auto max-w-[1500px] px-8">
         {/* Trending Badge */}
 
@@ -142,18 +138,20 @@ function FeaturedAuctions({
 
         {/* Heading */}
 
-        <h2 className="mt-6 text-center text-6xl font-extrabold text-slate-900">
+        <h2 className="mt-6 text-center text-6xl font-extrabold text-slate-900 dark:text-white">
+          {" "}
           Featured Auctions
         </h2>
 
-        <p className="mx-auto mt-5 max-w-3xl text-center text-lg text-slate-500">
+        <p className="mx-auto mt-5 max-w-3xl text-center text-lg text-slate-500 dark:text-slate-400">
+          {" "}
           Handpicked premium auctions with exciting bids and unbeatable prices.
         </p>
 
         {/* View All Button */}
         <Link
           to="/auctions"
-          className="flex w-40 items-center gap-3 rounded-full border border-blue-600 px-6 py-3 text-blue-600 transition hover:bg-blue-600 hover:text-white"
+          className="flex w-40 items-center gap-3 rounded-full border border-blue-600 px-6 py-3 text-blue-600 transition hover:bg-blue-600 hover:text-white dark:border-blue-500 dark:text-blue-400"
         >
           View All
           <FiArrowRight />
@@ -174,11 +172,11 @@ function FeaturedAuctions({
             <AuctionGrid auctions={sortedAuctions} />
           ) : (
             <div className="text-center">
-              <h3 className="text-3xl font-bold text-slate-700">
+             <h3 className="text-3xl font-bold text-slate-700 dark:text-white">
                 No Auction Found
               </h3>
 
-              <p className="mt-3 text-slate-500">
+              <p className="mt-3 text-slate-500 dark:text-slate-400">
                 Try searching for another product.
               </p>
             </div>

@@ -8,7 +8,8 @@ import Macbook from "../../assets/images/hero/Macbook.png";
 
 import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
 
-function HeroSection() {
+function HeroSection({ isLoggedIn }) {
+
   const heroSlides = [
     {
       image: image2,
@@ -32,8 +33,7 @@ function HeroSection() {
       image: furniture,
       title: "Premium Furniture.",
       highlight: "Elegant Living.",
-      description:
-        "Bid on designer furniture and transform your dream home.",
+      description: "Bid on designer furniture and transform your dream home.",
       button: "Explore Furniture",
     },
 
@@ -48,6 +48,26 @@ function HeroSection() {
   ];
 
   const [currentSlide, setCurrentSlide] = useState(0);
+  
+  const heroContent = isLoggedIn
+    ? {
+        badge: "Welcome Back",
+        title: "Discover.",
+        highlight: "Bid. Win.",
+        description:
+          "Browse Live auctions, place bids, and find amazing deals from trusted sellers across India.",
+        primaryButton: "Explore Auctions",
+        secondaryButton: "Sell an Item",
+      }
+    : {
+        badge: "India's Trusted Online Auction Platform",
+        title: heroSlides[currentSlide].title,
+        highlight: heroSlides[currentSlide].highlight,
+        description: heroSlides[currentSlide].description,
+        primaryButton: heroSlides[currentSlide].button,
+        secondaryButton: "Start Selling",
+      };
+  
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -59,7 +79,6 @@ function HeroSection() {
 
   return (
     <section className="relative h-[650px] overflow-hidden">
-
       {/* Background Image */}
 
       <div
@@ -78,7 +97,7 @@ function HeroSection() {
       <button
         onClick={() =>
           setCurrentSlide(
-            (currentSlide - 1 + heroSlides.length) % heroSlides.length
+            (currentSlide - 1 + heroSlides.length) % heroSlides.length,
           )
         }
         className="absolute left-8 top-1/2 z-20 -translate-y-1/2 rounded-full bg-black/40 p-3 text-white backdrop-blur transition hover:bg-blue-600"
@@ -89,9 +108,7 @@ function HeroSection() {
       {/* Next Button */}
 
       <button
-        onClick={() =>
-          setCurrentSlide((currentSlide + 1) % heroSlides.length)
-        }
+        onClick={() => setCurrentSlide((currentSlide + 1) % heroSlides.length)}
         className="absolute right-8 top-1/2 z-20 -translate-y-1/2 rounded-full bg-black/40 p-3 text-white backdrop-blur transition hover:bg-blue-600"
       >
         <FiChevronRight size={30} />
@@ -104,42 +121,37 @@ function HeroSection() {
         className="relative z-10 mx-auto flex h-full max-w-[1500px] items-center px-8 animate-fade"
       >
         <div className="max-w-2xl">
-
           <span className="inline-block rounded-full bg-blue-600 px-5 py-2 text-sm font-semibold text-white">
-            India's Trusted Online Auction Platform
+            {heroContent.badge}
           </span>
 
           <h1 className="mt-6 text-6xl font-extrabold leading-tight text-white">
-            {heroSlides[currentSlide].title}
+            {heroContent.title}
             <br />
             <span className="text-blue-500">
-              {heroSlides[currentSlide].highlight}
+              {heroContent.highlight}
             </span>
           </h1>
 
           <p className="mt-6 text-lg leading-8 text-white">
-            {heroSlides[currentSlide].description}
+            {heroContent.description}
           </p>
 
           <div className="mt-10 flex gap-5">
-
             <button className="rounded-xl bg-blue-600 px-8 py-4 font-semibold text-white transition hover:bg-blue-700">
-              {heroSlides[currentSlide].button}
+              {heroContent.primaryButton}
             </button>
 
             <button className="rounded-xl border border-white px-8 py-4 font-semibold text-white transition hover:bg-white hover:text-black">
-              Start Selling
+              {heroContent.secondaryButton}
             </button>
-
           </div>
-
         </div>
       </div>
 
       {/* Slide Indicators */}
 
       <div className="absolute bottom-8 left-1/2 z-20 flex -translate-x-1/2 gap-3">
-
         {heroSlides.map((_, index) => (
           <button
             key={index}
@@ -151,7 +163,6 @@ function HeroSection() {
             }`}
           ></button>
         ))}
-
       </div>
     </section>
   );

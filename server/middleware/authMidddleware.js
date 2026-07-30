@@ -5,6 +5,8 @@ const jwt = require('jsonwebtoken')
 // verifies JWT before allowing access to protected routes
 
 const protect = async (req, res, next) => {
+      console.log("Protect middleware reached");
+
     try {
         // get authorization header
         const authHeader = req.headers.authorization

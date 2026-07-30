@@ -8,10 +8,12 @@ import {
 
 function Footer() {
   return (
+    
     <footer className="bg-slate-900 text-white">
+      <hr />
       <div className="mx-auto grid max-w-[1500px] grid-cols-4 gap-12 px-8 py-16">
         {/* Brand */}
-
+    
         <div>
           <h2 className="text-3xl font-bold text-blue-500">AuctoBid</h2>
           <p className="mt-4 text-slate-400 leading-7">

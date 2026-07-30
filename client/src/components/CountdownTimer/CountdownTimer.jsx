@@ -28,7 +28,6 @@ function CountdownTimer({ timeLeft }) {
 
   // calculate remaining miliseconds
   const difference = new Date(timeLeft).getTime() - currentTime; // Auction finished
-  console.log(difference)
   if (difference <= 0) {
     return <span className="font-semibold text-red-500">Auction Ended</span>;
   }

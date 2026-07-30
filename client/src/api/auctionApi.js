@@ -25,20 +25,18 @@ export const getMyAuctions = async () => {
 }
 
 // Create Auction
-export const createAuction = async (auctionData) => {
-    const token = localStorage.getItem('token')
+export const createAuction = async (formData) => {
+  const token = localStorage.getItem("token");
 
-    const response = await API.post(
-        '/auctions',
-        auctionData,
-        {
-            headers:{
-                Authorization: `Bearer ${token}`,
-            }
-        }
-    )
-    return response.data
-}
+  const response = await API.post("/auctions", formData, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "multipart/form-data",
+    },
+  });
+
+  return response.data;
+};
 
 export const deleteAuction = async (id) => {
   const token = localStorage.getItem("token");
@@ -81,4 +79,29 @@ export const getDashboardStats = async () => {
 
   return response.data
   
+}
+
+export const placeBid = async (auctionId, amount) => {
+  const token = localStorage.getItem("token")
+
+  const response = await API.post(`/auctions/${auctionId}/bid`, {amount},
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      }
+    }
+  )
+
+  return response.data
+}
+
+export const getMyBids = async () => {
+  const token = localStorage.getItem("token")
+
+  const response = await API.get('/auctions/my-bids', {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  })
+  return response.data
 }

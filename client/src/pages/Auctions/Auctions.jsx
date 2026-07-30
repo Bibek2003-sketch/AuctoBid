@@ -29,7 +29,6 @@ import AuctionGrid from "../../components/AuctionGrid/AuctionGrid";
 // Later this data will come from the backend API.
 // =======================================================
 
-import auctions from "../../data/auctions";
 
 function Auctions() {
   // ===================================================
@@ -57,7 +56,7 @@ function Auctions() {
   // Filter by category
   // ===================================================
 
-  const filteredAuctions = auctions.filter((auction) => {
+  const filteredAuctions = Auctions.filter((auction) => {
     // Check search text
 
     const matchesSearch = auction.title

@@ -28,40 +28,49 @@ function Home() {
   // Store the selected sorting option
   const [selectedSort, setSelectedSort] = useState("Ending Soon");
 
+  // logged in user or not
+  const isLoggedIn = Boolean(localStorage.getItem("token"));
+
   return (
     <>
       <Navbar />
 
-      <HeroSection />
+      <HeroSection isLoggedIn={isLoggedIn} />
 
-      {/* 
-        Pass the current search text, selectedCategory, selectedsort
-        and the function that updates it
-        to the search component.
-      */}
-      <AuctionSearch
-        searchTerm={searchTerm}
-        setSearchTerm={setSearchTerm}
+      {isLoggedIn ? (
+        <>
+          <AuctionSearch
+            searchTerm={searchTerm}
+            setSearchTerm={setSearchTerm}
+            selectedCategory={selectedCategory}
+            setSelectedCategory={setSelectedCategory}
+            selectedSort={selectedSort}
+            setSelectedSort={setSelectedSort}
+          />
 
-        selectedCategory={selectedCategory}
-        setSelectedCategory={setSelectedCategory}
+          <FeaturedAuctions
+            searchTerm={searchTerm}
+            selectedCategory={selectedCategory}
+            selectedSort={selectedSort}
+          />
 
-        selectedSort={selectedSort}
-        setSelectedSort={setSelectedSort}
-      />
+          {/* Future Marketplace Components */}
+          {/* <EndingSoon /> */}
+          {/* <NewestAuctions /> */}
+        </>
+      ) : (
+        <>
+          <CategorySection />
 
-      {/* 
-        Pass the search term, selectedCategory, selectedSort to the Featured Auctions component.
-      */}
-      <FeaturedAuctions
-        searchTerm={searchTerm}
-        selectedCategory={selectedCategory}
-        selectedSort={selectedSort}
-      />
+          <FeaturedAuctions
+            searchTerm=""
+            selectedCategory="All Categories"
+            selectedSort="Ending Soon"
+          />
 
-      <CategorySection />
-
-      <WhyChooseUs />
+          <WhyChooseUs />
+        </>
+      )}
 
       <Footer />
     </>

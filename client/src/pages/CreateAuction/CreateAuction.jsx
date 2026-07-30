@@ -11,12 +11,11 @@ import { useNavigate, useParams } from "react-router-dom";
 function CreateAuction() {
   const navigate = useNavigate();
   const { id } = useParams();
-  console.log("AuctionId: ", id);
   const [formData, setFormData] = useState({
     title: "",
     description: "",
     category: "",
-    image: "",
+    image: null,
     startingBid: "",
     minimumIncrement: "",
     endTime: "",
@@ -44,7 +43,7 @@ function CreateAuction() {
           title: auction.title,
           description: auction.description,
           category: auction.category,
-          image: auction.image,
+          image: null,
           startingBid: auction.startingBid,
           minimumIncrement: auction.minimumIncrement,
 
@@ -61,7 +60,6 @@ function CreateAuction() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     try {
       let response;
 
@@ -70,8 +68,22 @@ function CreateAuction() {
         response = await updateAuction(id, formData);
       } else {
         // create mode
-        response = await createAuction(formData);
+        const data = new FormData();
+
+        data.append("title", formData.title);
+        data.append("description", formData.description);
+        data.append("category", formData.category);
+        data.append("image", formData.image);
+        data.append("startingBid", formData.startingBid);
+        data.append("minimumIncrement", formData.minimumIncrement);
+        data.append("endTime", formData.endTime);
+
+        
+
+  response = await createAuction(data);
+
       }
+      console.log("Response:", response);
       toast.success(response.message);
       navigate("/dashboard");
     } catch (error) {
@@ -89,10 +101,12 @@ function CreateAuction() {
     <div className="min-h-screen bg-slate-100 p-10 dark:bg-slate-900">
       <div className="mx-auto max-w-6xl rounded-3xl  bg-white p-10 shadow-xl dark:bg-slate-800">
         <h1 className="text-4xl font-bold text-slate-900 dark:text-white">
-          {id? "Edit Auction" : "Create New Auction"}
+          {id ? "Edit Auction" : "Create New Auction"}
         </h1>
         <p className="mt-2 text-slate-500 dark:text-slate-300">
-          {id ? "Edit the required details" :"Fill in the auction details below"}
+          {id
+            ? "Edit the required details"
+            : "Fill in the auction details below"}
         </p>
 
         <form
@@ -168,18 +182,21 @@ function CreateAuction() {
           <div className="space-y-6">
             <div>
               <label className="mb-2 block font-semibold dark:text-white">
-                Image URL
+                Upload Image
               </label>
 
               <input
-                type="text"
-                name="image"
-                value={formData.image}
-                onChange={handleChange}
+                type="file"
+                accept="image/*"
+                onChange={(e) =>
+                  setFormData((prev) => ({
+                    ...prev,
+                    image: e.target.files[0],
+                  }))
+                }
                 className="w-full rounded-xl border p-3 dark:text-white"
               />
             </div>
-
             <div>
               <label className="dark:text-white mb-2 font-semibold">
                 Starting Bid (Rs.)

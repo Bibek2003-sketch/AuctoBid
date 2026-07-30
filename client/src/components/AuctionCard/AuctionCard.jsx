@@ -12,7 +12,7 @@ import { Link } from "react-router-dom";
 import { useState } from "react";
 import CountdownTimer from "../CountdownTimer/CountdownTimer";
 
-function AuctionCard({ id, image, title, currentBid, bids, endTime }) {
+function AuctionCard({ _id, image, title, currentBid, bids, endTime }) {
   // ===============================================
   // Wishlist State
   //
@@ -24,9 +24,8 @@ function AuctionCard({ id, image, title, currentBid, bids, endTime }) {
   // ===============================================
 
   const [isWishlisted, setIsWishlisted] = useState(false);
-  console.log("timeLeft:", endTime);
   return (
-    <Link to={`/auction/${id}`} className="block">
+    <Link to={`/auction/${_id}`} className="block">
       <div className="group overflow-hidden rounded-3xl bg-white shadow-lg transition-all duration-300 hover:-translate-y-3 hover:shadow-2xl">
         {/* Image */}
         <div className="relative overflow-hidden">
@@ -35,6 +34,7 @@ function AuctionCard({ id, image, title, currentBid, bids, endTime }) {
             alt={title}
             className="h-62 w-full bg-white p-4 object-cover transition duration-500 group-hover:scale-110"
           />
+          
 
           {/* Live Badge */}
 
@@ -129,7 +129,7 @@ function AuctionCard({ id, image, title, currentBid, bids, endTime }) {
           <div className="mt-5 flex items-center justify-between">
             <p className="text-sm text-slate-500">Auction #AB1023</p>
 
-            <p className="text-sm font-semibold text-red-500">Ending Soon</p>
+            {/* <p className="text-sm font-semibold text-red-500">Ending Soon</p> */}
           </div>
 
           {/* Button */}
@@ -142,6 +142,7 @@ function AuctionCard({ id, image, title, currentBid, bids, endTime }) {
       </div>
     </Link>
   );
+  
 }
 
 export default AuctionCard;

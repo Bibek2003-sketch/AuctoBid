@@ -20,8 +20,6 @@ function Dashboard() {
       try {
         const data = await getDashboardStats();
 
-        console.log(data);
-
         setStats(data.stats);
       } catch (error) {
         console.log(error);

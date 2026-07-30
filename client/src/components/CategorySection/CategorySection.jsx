@@ -3,10 +3,10 @@ import categories from "../../data/categories";
 
 function CategorySection(){
     return (
-        <section className="bg-slate-50 py-24">
+        <section className="bg-slate-50 py-24 transition-colors duration-300 dark:bg-slate-900 dark:shadow-black/30">
             <div className="mx-auto max-w-[1500px] px-6">
                 <div className="text-center">
-                    <h2 className="text-5xl font-bold text-slate-900">Browse Categories</h2>
+                    <h2 className="text-5xl font-bold text-slate-900 dark:text-white">Browse Categories</h2>
 
                     <p className="mt-4 text-lg text-slate-500">Find auctions from your favorite categories.</p>
                 </div>

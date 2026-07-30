@@ -3,10 +3,10 @@ import features from "../../data/features";
 
 function WhyChooseUs() {
   return (
-    <section className="bg-slate-50 py-24">
+    <section className="bg-slate-50 py-24 transition-colors duration-300 dark:bg-slate-900 dark:shadow-black/30">
       <div className="mx-auto max-w-[1500px] px-6">
         <div className="text-center">
-          <h2 className="text-5xl font-bold text-slate-900">
+          <h2 className="text-5xl font-bold text-slate-900 dark:text-white">
             Why Choose AuctoBid
           </h2>
 
