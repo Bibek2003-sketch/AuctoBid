@@ -23,90 +23,96 @@ function MyBids() {
 
   if (loading) {
     return (
-      <div className="flex justify-center items-center h-screen text-xl font-semibold">
+      <div className="flex h-screen items-center justify-center text-lg font-semibold sm:text-xl">
         Loading...
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gray-100 dark:bg-slate-950 py-10 px-5">
-      <div className="max-w-7xl mx-auto">
+    <div className="min-h-screen bg-gray-100 px-4 py-8 dark:bg-slate-950 sm:px-6 lg:px-8 lg:py-10">
+      <div className="mx-auto max-w-7xl">
         {/* Header */}
-        <div className="mb-10 ">
-          <h1 className="flex text-4xl justify-center font-bold text-slate-800  dark:text-white">
+
+        <div className="mb-8 text-center sm:mb-10">
+          <h1 className="text-3xl font-bold text-slate-800 sm:text-4xl dark:text-white">
             My Bids
           </h1>
 
-          <p className="flex text-gray-600 dark:text-gray-400 mt-2 justify-center">
+          <p className="mt-2 text-sm text-gray-600 sm:text-base dark:text-gray-400">
             Track all the auctions you've participated in.
           </p>
         </div>
 
         {/* Statistics */}
-        <div className="bg-white dark:bg-slate-900 rounded-xl shadow-md p-6 mb-10">
-          <p className="text-gray-500">Total Auctions Bid On</p>
 
-          <h2 className="text-4xl font-bold text-blue-600 mt-2">
+        <div className="mb-8 rounded-xl bg-white p-5 shadow-md sm:mb-10 sm:p-6 dark:bg-slate-900">
+          <p className="text-sm text-gray-500 sm:text-base">
+            Total Auctions Bid On
+          </p>
+
+          <h2 className="mt-2 text-3xl font-bold text-blue-600 sm:text-4xl">
             {auctions.length}
           </h2>
         </div>
 
         {/* Empty State */}
-        {auctions.length === 0 ? (
-          <div className="bg-white dark:bg-slate-900 rounded-xl shadow-lg p-12 text-center">
-            <div className="text-6xl mb-4">📦</div>
 
-            <h2 className="text-2xl font-bold dark:text-white">
+        {auctions.length === 0 ? (
+          <div className="rounded-xl bg-white p-8 text-center shadow-lg sm:p-12 dark:bg-slate-900">
+            <div className="mb-4 text-5xl sm:text-6xl">📦</div>
+
+            <h2 className="text-xl font-bold sm:text-2xl dark:text-white">
               You haven't placed any bids yet.
             </h2>
 
-            <p className="text-gray-500 mt-3">
+            <p className="mt-3 text-sm text-gray-500 sm:text-base">
               Browse auctions and place your first bid.
             </p>
 
             <Link
               to="/"
-              className="inline-block mt-6 bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition"
+              className="mt-6 inline-block rounded-lg bg-blue-600 px-6 py-3 text-white transition hover:bg-blue-700"
             >
               Browse Auctions
             </Link>
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3">
             {auctions.map((auction) => {
-              // Calculate user's highest bid
               const myHighestBid = Math.max(
-                ...auction.bidHistory.map((bid) => bid.amount),
+                ...auction.bidHistory.map((bid) => bid.amount)
               );
 
               return (
                 <div
                   key={auction._id}
-                  className="bg-white dark:bg-slate-900 rounded-2xl overflow-hidden shadow-lg border border-gray-200 dark:border-slate-700 hover:shadow-2xl transition duration-300"
+                  className="overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-lg transition duration-300 hover:shadow-2xl dark:border-slate-700 dark:bg-slate-900"
                 >
                   {/* Image */}
+
                   <img
                     src={auction.image}
                     alt={auction.title}
-                    className="w-full h-56 object-cover"
+                    className="h-52 w-full object-cover sm:h-56"
                   />
 
-                  <div className="p-6">
+                  <div className="p-5 sm:p-6">
                     {/* Title */}
-                    <div className="flex justify-between items-start">
+
+                    <div className="flex items-start justify-between gap-3">
                       <div>
-                        <h2 className="text-2xl font-bold dark:text-white">
+                        <h2 className="text-xl font-bold sm:text-2xl dark:text-white">
                           {auction.title}
                         </h2>
 
-                        <span className="inline-block mt-2 bg-blue-100 text-blue-700 text-sm px-3 py-1 rounded-full font-medium">
+                        <span className="mt-2 inline-block rounded-full bg-blue-100 px-3 py-1 text-xs font-medium text-blue-700 sm:text-sm">
                           {auction.category}
                         </span>
                       </div>
 
                       <span
-                        className={`px-3 py-1 rounded-full text-sm font-semibold ${
+                        className={`rounded-full px-3 py-1 text-xs font-semibold sm:text-sm ${
                           auction.status === "active"
                             ? "bg-green-100 text-green-700"
                             : "bg-red-100 text-red-700"
@@ -117,46 +123,54 @@ function MyBids() {
                     </div>
 
                     {/* Auction Info */}
-                    <div className="grid grid-cols-2 gap-5 mt-6">
-                      <div>
-                        <p className="text-gray-500 text-sm">Current Bid</p>
 
-                        <h3 className="font-bold text-lg dark:text-white">
+                    <div className="mt-6 grid grid-cols-2 gap-4 sm:gap-5">
+                      <div>
+                        <p className="text-xs text-gray-500 sm:text-sm">
+                          Current Bid
+                        </p>
+
+                        <h3 className="text-base font-bold sm:text-lg dark:text-white">
                           ₹{auction.currentBid.toLocaleString()}
                         </h3>
                       </div>
 
                       <div>
-                        <p className="text-gray-500 text-sm">
+                        <p className="text-xs text-gray-500 sm:text-sm">
                           Your Highest Bid
                         </p>
 
-                        <h3 className="font-bold text-lg dark:text-white">
+                        <h3 className="text-base font-bold sm:text-lg dark:text-white">
                           ₹{myHighestBid.toLocaleString()}
                         </h3>
                       </div>
 
                       <div>
-                        <p className="text-gray-500 text-sm">Ends On</p>
+                        <p className="text-xs text-gray-500 sm:text-sm">
+                          Ends On
+                        </p>
 
-                        <h3 className="font-semibold dark:text-white">
+                        <h3 className="text-sm font-semibold sm:text-base dark:text-white">
                           {new Date(auction.endTime).toLocaleDateString()}
                         </h3>
                       </div>
 
                       <div>
-                        <p className="text-gray-500 text-sm">Highest Bidder</p>
+                        <p className="text-xs text-gray-500 sm:text-sm">
+                          Highest Bidder
+                        </p>
 
-                        <h3 className="font-semibold dark:text-white">
+                        <h3 className="break-words text-sm font-semibold sm:text-base dark:text-white">
                           {auction.highestBidder?.name || "N/A"}
                         </h3>
                       </div>
                     </div>
 
                     {/* Button */}
+
                     <Link
                       to={`/auction/${auction._id}`}
-                      className="block mt-8 text-center bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-xl transition"
+                      className="mt-8 block rounded-xl bg-blue-600 py-3 text-center font-semibold text-white transition hover:bg-blue-700"
                     >
                       View Details
                     </Link>

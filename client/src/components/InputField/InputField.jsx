@@ -1,24 +1,20 @@
 function InputField({
-  // icon component (FaUser, FaEnvelope...)
   icon: Icon,
-  //input type
   type,
-  //input name,
   name,
-  // placeholder text
   placeholder,
-  //current input value
   value,
-  //function called while typing
   onChange,
-  // error message
   error,
 }) {
   return (
-    <div>
+    <div className="w-full">
       <div className="relative">
-        {/* Render the icon */}
-        <Icon className="absolute left-4 top-4 text-slate-400" />
+        {/* Icon */}
+
+        <Icon className="absolute left-4 top-1/2 -translate-y-1/2 text-lg text-slate-400" />
+
+        {/* Input */}
 
         <input
           type={type}
@@ -26,17 +22,20 @@ function InputField({
           placeholder={placeholder}
           value={value}
           onChange={onChange}
-          className={`w-full rounded-xl border bg-white py-3 pl-12 pr-4 text-slate-900 placeholder:text-slate-500 outline-none transition
-${
-  error
-    ? "border-red-500 focus:border-red-500"
-    : "border-slate-300 focus:border-blue-500"
-}
-`}
+          className={`w-full rounded-xl border bg-white py-3 pl-12 pr-4 text-sm text-slate-900 outline-none transition placeholder:text-slate-500 sm:text-base
+          ${
+            error
+              ? "border-red-500 focus:border-red-500"
+              : "border-slate-300 focus:border-blue-500"
+          }`}
         />
       </div>
 
-      {error && <p className="mt-2 text-sm text-red-500">{error}</p>}
+      {error && (
+        <p className="mt-2 text-xs text-red-500 sm:text-sm">
+          {error}
+        </p>
+      )}
     </div>
   );
 }

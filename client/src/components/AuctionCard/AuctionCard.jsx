@@ -1,140 +1,108 @@
 import { FaHeart, FaGavel } from "react-icons/fa";
 import { FiClock } from "react-icons/fi";
 import { Link } from "react-router-dom";
-// ===============================================
-// React Hook
-//
-// useState stores data inside this component.
-// Here it remembers whether the auction has
-// been added to the wishlist.
-// ===============================================
-
 import { useState } from "react";
 import CountdownTimer from "../CountdownTimer/CountdownTimer";
 
-function AuctionCard({ _id, image, title, currentBid, bids, endTime }) {
-  // ===============================================
-  // Wishlist State
-  //
-  // false = Not in wishlist
-  // true  = Added to wishlist
-  //
-  // React automatically re-renders the component
-  // whenever this state changes.
-  // ===============================================
-
+function AuctionCard({
+  _id,
+  image,
+  title,
+  currentBid,
+  bids,
+  endTime,
+  category,
+}) {
   const [isWishlisted, setIsWishlisted] = useState(false);
+
   return (
-    <Link to={`/auction/${_id}`} className="block">
-      <div className="group overflow-hidden rounded-3xl bg-white shadow-lg transition-all duration-300 hover:-translate-y-3 hover:shadow-2xl">
+    <Link to={`/auction/${_id}`} className="block h-full">
+      <div className="group flex h-full flex-col overflow-hidden rounded-2xl bg-white shadow-lg transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl">
         {/* Image */}
         <div className="relative overflow-hidden">
           <img
             src={image}
             alt={title}
-            className="h-62 w-full bg-white p-4 object-cover transition duration-500 group-hover:scale-110"
+            className="h-48 w-full bg-white p-3 object-cover transition duration-500 group-hover:scale-110 sm:h-56 sm:p-4 md:h-60 lg:h-64"
           />
-          
 
           {/* Live Badge */}
-
-          <span className="absolute left-4 top-4 rounded-full bg-red-500 px-4 py-2 text-sm font-semibold text-white">
+          <span className="absolute left-3 top-3 rounded-full bg-red-500 px-3 py-1 text-xs font-semibold text-white sm:left-4 sm:top-4 sm:px-4 sm:py-2 sm:text-sm">
             LIVE
           </span>
 
           {/* Wishlist */}
-
-          {/* ==========================================
-                  Wishlist Button
-
-                  Clicking the button changes the
-                  wishlist state.
-
-                  If the item is already wishlisted,
-                  clicking again removes it.
-              ========================================== */}
-
           <button
-            // Prevent the Link from opening
             onClick={(e) => {
               e.preventDefault();
               e.stopPropagation();
-
-              // Toggle wishlist state
               setIsWishlisted(!isWishlisted);
             }}
-            className="absolute right-4 top-4 flex h-11 w-11 items-center justify-center rounded-full bg-white/80 backdrop-blur-md transition-all duration-300 hover:scale-110"
+            className="absolute right-3 top-3 flex h-9 w-9 items-center justify-center rounded-full bg-white/80 backdrop-blur-md transition-all duration-300 hover:scale-110 sm:right-4 sm:top-4 sm:h-11 sm:w-11"
           >
             <FaHeart
-              className={`text-xl transition-all duration-300 ${
+              className={`text-lg transition-all duration-300 sm:text-xl ${
                 isWishlisted
-                  ? "text-red-500 scale-125"
+                  ? "scale-125 text-red-500"
                   : "text-gray-400 hover:text-red-400"
               }`}
             />
           </button>
 
           {/* Timer */}
-
-          <div className="absolute bottom-4 right-4 flex items-center gap-2 rounded-full bg-black/70 px-4 py-2 text-sm text-white backdrop-blur-md">
-            {/* Clock Icon */}
+          <div className="absolute bottom-3 right-3 flex items-center gap-1 rounded-full bg-black/70 px-3 py-1 text-xs text-white backdrop-blur-md sm:bottom-4 sm:right-4 sm:gap-2 sm:px-4 sm:py-2 sm:text-sm">
             <FiClock />
-
-            {/* Live Countdown */}
             <CountdownTimer timeLeft={endTime} />
           </div>
         </div>
 
         {/* Card Body */}
-
-        <div className="p-6">
+        <div className="flex flex-1 flex-col p-4 sm:p-5 lg:p-6">
           {/* Category */}
-
-          <span className="rounded-full bg-blue-100 px-3 py-1 text-sm font-medium text-blue-600">
-            Electronics
+          <span className="w-fit rounded-full bg-blue-100 px-3 py-1 text-xs font-medium text-blue-600 sm:text-sm">
+            {category || "Electronics"}
           </span>
 
           {/* Title */}
+          <h3 className="mt-3 line-clamp-2 text-xl font-bold text-slate-900 sm:mt-4 sm:text-2xl">
+            {title}
+          </h3>
 
-          <h3 className="mt-4 text-2xl font-bold text-slate-900">{title}</h3>
-
-          {/* Bid */}
-
-          <div className="mt-6 flex items-center justify-between">
+          {/* Bid Info */}
+          <div className="mt-5 flex items-center justify-between gap-4">
             <div>
-              <p className="text-sm text-slate-500">Current Bid</p>
+              <p className="text-xs text-slate-500 sm:text-sm">
+                Current Bid
+              </p>
 
-              <h4 className="text-3xl font-bold text-blue-600">
+              <h4 className="text-xl font-bold text-blue-600 sm:text-2xl lg:text-3xl">
                 ₹{currentBid}
               </h4>
             </div>
 
             <div className="text-right">
-              <p className="text-sm text-slate-500">Bids</p>
+              <p className="text-xs text-slate-500 sm:text-sm">Bids</p>
 
-              <h4 className="text-2xl font-bold">{bids}</h4>
+              <h4 className="text-xl font-bold sm:text-2xl">{bids}</h4>
             </div>
           </div>
 
           {/* Progress */}
-
-          <div className="mt-6">
+          <div className="mt-5">
             <div className="h-2 rounded-full bg-slate-200">
               <div className="h-2 w-3/4 rounded-full bg-blue-600"></div>
             </div>
           </div>
 
           {/* Footer */}
-
-          <div className="mt-5 flex items-center justify-between">
-            <p className="text-sm text-slate-500">Auction #AB1023</p>
-
-            {/* <p className="text-sm font-semibold text-red-500">Ending Soon</p> */}
+          <div className="mt-4 flex items-center justify-between">
+            <p className="text-xs text-slate-500 sm:text-sm">
+              Auction #{_id?.slice(-6).toUpperCase()}
+            </p>
           </div>
 
           {/* Button */}
-
-          <button className="mt-8 flex w-full items-center justify-center gap-3 rounded-xl bg-blue-600 py-4 font-semibold text-white transition hover:bg-blue-700">
+          <button className="mt-6 flex w-full items-center justify-center gap-2 rounded-xl bg-blue-600 py-3 text-sm font-semibold text-white transition hover:bg-blue-700 sm:mt-8 sm:gap-3 sm:py-4 sm:text-base">
             <FaGavel />
             Place Bid
           </button>
@@ -142,7 +110,6 @@ function AuctionCard({ _id, image, title, currentBid, bids, endTime }) {
       </div>
     </Link>
   );
-  
 }
 
 export default AuctionCard;

@@ -7,134 +7,158 @@ import {
 } from "react-icons/fa";
 import { Link } from "react-router-dom";
 
-import furniture from "../../assets/images/hero/furniture.png";
-
 function About() {
   return (
     <div className="bg-slate-50">
       {/* Hero */}
 
-      <section className="bg-gradient-to-r from-slate-900 to-blue-900 py-24 text-white">
-        <div className="mx-auto flex max-w-7xl items-center justify-between gap-16 px-8">
-          <div className="max-w-9xl">
-            <span className="rounded-full bg-blue-600 px-5 py-2 text-sm font-semibold">
+      <section className="bg-gradient-to-r from-slate-900 to-blue-900 py-16 text-white sm:py-20 lg:py-24">
+        <div className="mx-auto flex max-w-7xl flex-col items-center gap-10 px-4 text-center sm:px-6 lg:flex-row lg:justify-between lg:gap-16 lg:px-8 lg:text-left">
+          <div className="max-w-3xl">
+            <span className="rounded-full bg-blue-600 px-5 py-2 text-xs font-semibold sm:text-sm">
               About AuctoBid
             </span>
 
-            <h1 className="mt-8 text-8xl font-bold">
+            <h1 className="mt-6 text-4xl font-bold leading-tight sm:text-5xl lg:text-7xl xl:text-8xl">
               India's Trusted
               <br />
               Online Auction Platform
             </h1>
 
-            <p className="mt-8 text-lg leading-8 text-slate-300">
+            <p className="mt-6 text-base leading-7 text-slate-300 sm:text-lg sm:leading-8">
               AuctoBid is a modern marketplace where buyers and sellers
               participate in secure, transparent and exciting online auctions.
             </p>
           </div>
-
-          {/* <div className="flex h-[500px] items-center justify-center rounded-3xl bg-slate-200 shadow-2xl">
-            <h2 className="text-3xl font-bold text-slate-500">
-              image to be added
-            </h2>
-          </div> */}
         </div>
       </section>
 
       {/* Our Story */}
 
-      <section className="mx-auto max-w-7xl py-24 px-8">
-        <h2 className="text-center text-5xl font-bold">Our Story</h2>
+      <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 lg:py-24">
+        <h2 className="text-center text-3xl font-bold sm:text-4xl lg:text-5xl">
+          Our Story
+        </h2>
 
-        <p className="mx-auto mt-8 max-w-4xl text-center text-lg leading-9 text-slate-600">
+        <p className="mx-auto mt-6 max-w-4xl text-center text-base leading-8 text-slate-600 sm:mt-8 sm:text-lg sm:leading-9">
           AuctoBid was built to transform the traditional auction experience
           into a fast, transparent and user-friendly digital platform. Whether
-          you're bidding on premium electronics, luxury furniture, collectibles
-          or vehicles, we make every auction exciting and secure.
+          you're bidding on premium electronics, luxury furniture,
+          collectibles or vehicles, we make every auction exciting and secure.
         </p>
       </section>
 
       {/* Features */}
 
-      <section className="mx-auto grid max-w-7xl grid-cols-4 gap-8 px-8 pb-24">
-        <div className="rounded-3xl bg-white p-8 text-center shadow-lg">
-          <FaShieldAlt className="mx-auto text-5xl text-blue-600" />
+      <section className="mx-auto grid max-w-7xl grid-cols-1 gap-6 px-4 pb-16 sm:grid-cols-2 sm:px-6 lg:grid-cols-4 lg:px-8 lg:pb-24">
+        <div className="rounded-3xl bg-white p-6 text-center shadow-lg sm:p-8">
+          <FaShieldAlt className="mx-auto text-4xl text-blue-600 sm:text-5xl" />
 
-          <h3 className="mt-6 text-2xl font-bold">Secure Bidding</h3>
+          <h3 className="mt-5 text-xl font-bold sm:text-2xl">
+            Secure Bidding
+          </h3>
 
-          <p className="mt-4 text-slate-500">
+          <p className="mt-3 text-sm text-slate-500 sm:mt-4 sm:text-base">
             Transparent and fair bidding experience.
           </p>
         </div>
 
-        <div className="rounded-3xl bg-white p-8 text-center shadow-lg">
-          <FaBolt className="mx-auto text-5xl text-blue-600" />
+        <div className="rounded-3xl bg-white p-6 text-center shadow-lg sm:p-8">
+          <FaBolt className="mx-auto text-4xl text-blue-600 sm:text-5xl" />
 
-          <h3 className="mt-6 text-2xl font-bold">Live Auctions</h3>
+          <h3 className="mt-5 text-xl font-bold sm:text-2xl">
+            Live Auctions
+          </h3>
 
-          <p className="mt-4 text-slate-500">Real-time bidding updates.</p>
+          <p className="mt-3 text-sm text-slate-500 sm:mt-4 sm:text-base">
+            Real-time bidding updates.
+          </p>
         </div>
 
-        <div className="rounded-3xl bg-white p-8 text-center shadow-lg">
-          <FaUsers className="mx-auto text-5xl text-blue-600" />
+        <div className="rounded-3xl bg-white p-6 text-center shadow-lg sm:p-8">
+          <FaUsers className="mx-auto text-4xl text-blue-600 sm:text-5xl" />
 
-          <h3 className="mt-6 text-2xl font-bold">Trusted Community</h3>
+          <h3 className="mt-5 text-xl font-bold sm:text-2xl">
+            Trusted Community
+          </h3>
 
-          <p className="mt-4 text-slate-500">
+          <p className="mt-3 text-sm text-slate-500 sm:mt-4 sm:text-base">
             Thousands of buyers and sellers.
           </p>
         </div>
 
-        <div className="rounded-3xl bg-white p-8 text-center shadow-lg">
-          <FaGavel className="mx-auto text-5xl text-blue-600" />
+        <div className="rounded-3xl bg-white p-6 text-center shadow-lg sm:p-8">
+          <FaGavel className="mx-auto text-4xl text-blue-600 sm:text-5xl" />
 
-          <h3 className="mt-6 text-2xl font-bold">Premium Auctions</h3>
+          <h3 className="mt-5 text-xl font-bold sm:text-2xl">
+            Premium Auctions
+          </h3>
 
-          <p className="mt-4 text-slate-500">Exclusive products every day.</p>
+          <p className="mt-3 text-sm text-slate-500 sm:mt-4 sm:text-base">
+            Exclusive products every day.
+          </p>
         </div>
       </section>
 
       {/* Statistics */}
 
-      <section className="bg-white py-24">
-        <div className="mx-auto grid max-w-7xl grid-cols-4 text-center">
+      <section className="bg-white py-16 sm:py-20 lg:py-24">
+        <div className="mx-auto grid max-w-7xl grid-cols-2 gap-8 px-4 text-center sm:px-6 lg:grid-cols-4 lg:px-8">
           <div>
-            <h2 className="text-5xl font-bold text-blue-600">25K+</h2>
+            <h2 className="text-3xl font-bold text-blue-600 sm:text-5xl">
+              25K+
+            </h2>
 
-            <p className="mt-3 text-slate-500">Active Auctions</p>
+            <p className="mt-2 text-sm text-slate-500 sm:mt-3 sm:text-base">
+              Active Auctions
+            </p>
           </div>
 
           <div>
-            <h2 className="text-5xl font-bold text-blue-600">10K+</h2>
+            <h2 className="text-3xl font-bold text-blue-600 sm:text-5xl">
+              10K+
+            </h2>
 
-            <p className="mt-3 text-slate-500">Registered Users</p>
+            <p className="mt-2 text-sm text-slate-500 sm:mt-3 sm:text-base">
+              Registered Users
+            </p>
           </div>
 
           <div>
-            <h2 className="text-5xl font-bold text-blue-600">500+</h2>
+            <h2 className="text-3xl font-bold text-blue-600 sm:text-5xl">
+              500+
+            </h2>
 
-            <p className="mt-3 text-slate-500">Verified Sellers</p>
+            <p className="mt-2 text-sm text-slate-500 sm:mt-3 sm:text-base">
+              Verified Sellers
+            </p>
           </div>
 
           <div>
-            <h2 className="text-5xl font-bold text-blue-600">98%</h2>
+            <h2 className="text-3xl font-bold text-blue-600 sm:text-5xl">
+              98%
+            </h2>
 
-            <p className="mt-3 text-slate-500">Customer Satisfaction</p>
+            <p className="mt-2 text-sm text-slate-500 sm:mt-3 sm:text-base">
+              Customer Satisfaction
+            </p>
           </div>
         </div>
       </section>
 
       {/* CTA */}
 
-      <section className="py-24">
-        <div className="mx-auto max-w-4xl rounded-3xl bg-gradient-to-r from-blue-600 to-blue-800 px-12 py-20 text-center text-white">
-          <h2 className="text-5xl font-bold">Ready to Start Bidding?</h2>
+      <section className="px-4 py-16 sm:px-6 lg:px-8 lg:py-24">
+        <div className="mx-auto max-w-4xl rounded-3xl bg-gradient-to-r from-blue-600 to-blue-800 px-6 py-12 text-center text-white sm:px-10 sm:py-16 lg:px-12 lg:py-20">
+          <h2 className="text-3xl font-bold sm:text-4xl lg:text-5xl">
+            Ready to Start Bidding?
+          </h2>
 
-          <p className="mt-6 text-lg text-blue-100">
+          <p className="mt-5 text-base text-blue-100 sm:mt-6 sm:text-lg">
             Join thousands of users discovering exciting auctions every day.
           </p>
 
-          <div className="mt-10 flex justify-center gap-5">
+          <div className="mt-8 flex flex-col gap-4 sm:mt-10 sm:flex-row sm:justify-center sm:gap-5">
             <Link
               to="/auctions"
               className="rounded-xl bg-white px-8 py-4 font-semibold text-blue-700 transition hover:scale-105"
@@ -144,7 +168,7 @@ function About() {
 
             <Link
               to="/register"
-              className="flex items-center gap-2 rounded-xl border border-white px-8 py-4 font-semibold transition hover:bg-white hover:text-blue-700"
+              className="flex items-center justify-center gap-2 rounded-xl border border-white px-8 py-4 font-semibold transition hover:bg-white hover:text-blue-700"
             >
               Create Account
               <FaArrowRight />

@@ -1,43 +1,21 @@
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { RiLockPasswordFill } from "react-icons/ri";
 
-// Reusable Password Field Component
 function PasswordField({
-
-  // Name of input
   name,
-
-  // Placeholder
   placeholder,
-
-  // Current value
   value,
-
-  // Function called while typing
   onChange,
-
-  // Error message
   error,
-
-  // Boolean value
   showPassword,
-
-  // Function to show/hide password
   togglePassword,
-
 }) {
-
   return (
-
-    <div>
-
+    <div className="w-full">
       <div className="relative">
-
         {/* Lock Icon */}
 
-        <RiLockPasswordFill
-          className="absolute left-4 top-4 text-slate-400"
-        />
+        <RiLockPasswordFill className="absolute left-4 top-1/2 -translate-y-1/2 text-lg text-slate-400" />
 
         {/* Password Input */}
 
@@ -47,8 +25,7 @@ function PasswordField({
           placeholder={placeholder}
           value={value}
           onChange={onChange}
-
-          className={`w-full rounded-xl border py-3 pl-12 pr-12 outline-none transition
+          className={`w-full rounded-xl border bg-white py-3 pl-12 pr-12 text-sm text-slate-900 outline-none transition placeholder:text-slate-500 sm:text-base
           ${
             error
               ? "border-red-500 focus:border-red-500"
@@ -61,31 +38,21 @@ function PasswordField({
         <button
           type="button"
           onClick={togglePassword}
-          className="absolute right-4 top-4 text-slate-500"
+          className="absolute right-4 top-1/2 -translate-y-1/2 text-lg text-slate-500 transition hover:text-blue-600"
         >
-
           {showPassword ? <FaEyeSlash /> : <FaEye />}
-
         </button>
-
       </div>
 
       {/* Error */}
 
       {error && (
-
-        <p className="mt-2 text-sm text-red-500">
-
+        <p className="mt-2 text-xs text-red-500 sm:text-sm">
           {error}
-
         </p>
-
       )}
-
     </div>
-
   );
-
 }
 
 export default PasswordField;

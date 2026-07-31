@@ -6,10 +6,10 @@ import PasswordField from "../components/PasswordField/PasswordField";
 
 import { FaArrowLeft } from "react-icons/fa";
 import { resetPassword } from "../api/authApi";
-import {toast} from "react-toastify"
+import { toast } from "react-toastify";
 
 function ResetPassword() {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const { token } = useParams();
 
   const [formData, setFormData] = useState({
@@ -43,13 +43,13 @@ function ResetPassword() {
     if (
       formData.password &&
       formData.confirmPassword &&
-      formData.password != formData.confirmPassword
+      formData.password !== formData.confirmPassword
     ) {
       newErrors.confirmPassword = "Passwords do not match";
     }
 
     if (formData.password && formData.password.length < 8) {
-      newErrors.password = "Password must be atleast 8 characters";
+      newErrors.password = "Password must be at least 8 characters";
     }
 
     if (Object.keys(newErrors).length > 0) {
@@ -69,25 +69,36 @@ function ResetPassword() {
       console.error(error.response?.data || error.message);
     }
   };
+
   return (
     <AuthLayout>
-      <div className="w-full max-w-md rounded-3xl bg-white p-10 shadow-2xl dark:bg-slate-900 ">
-        <div className="px-1 ">
-          <Link
-            to="/"
-            className="mb-6 inline-flex items-center gap-2 text-slate-600 transition hover:text-blue-600 dark:text-white"
-          >
-            <FaArrowLeft className="text-sm dark:text-white" />
-            Back to Home
-          </Link>
-        </div>
+      <div className="w-full max-w-md rounded-3xl bg-white p-6 shadow-2xl sm:p-8 lg:p-10 dark:bg-slate-900">
+        {/* Back */}
+
+        <Link
+          to="/"
+          className="inline-flex items-center gap-2 text-sm text-slate-600 transition hover:text-blue-600 sm:text-base dark:text-white"
+        >
+          <FaArrowLeft />
+          Back to Home
+        </Link>
+
+        {/* Heading */}
+
+        <h1 className="mt-6 text-2xl font-bold text-slate-900 sm:text-3xl dark:text-white">
+          Reset Password
+        </h1>
+
+        <p className="mt-2 text-sm text-slate-500 sm:text-base dark:text-slate-400">
+          Create a new password for your account.
+        </p>
+
+        {/* Form */}
 
         <form
           onSubmit={handleSubmit}
-          className="mt-8 space-y-5 dark:text-white "
+          className="mt-8 space-y-5 dark:text-white"
         >
-          {/* Password */}
-
           <PasswordField
             name="password"
             placeholder="Password"
@@ -100,17 +111,19 @@ function ResetPassword() {
 
           <PasswordField
             name="confirmPassword"
-            placeholder="confirm Password"
+            placeholder="Confirm Password"
             value={formData.confirmPassword}
             onChange={handleChange}
-            error={errors.password}
+            error={errors.confirmPassword}
             showPassword={showConfirmPassword}
-            togglePassword={() => setShowConfirmPassword(!showConfirmPassword)}
+            togglePassword={() =>
+              setShowConfirmPassword(!showConfirmPassword)
+            }
           />
 
           <button
             type="submit"
-            className="w-full rounded-xl bg-blue-600 py-3 text-lg font-semibold text-white transition hover:bg-blue-700"
+            className="w-full rounded-xl bg-blue-600 py-3 text-base font-semibold text-white transition hover:bg-blue-700 sm:text-lg"
           >
             Reset Password
           </button>

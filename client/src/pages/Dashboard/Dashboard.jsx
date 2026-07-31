@@ -5,7 +5,12 @@ import AuctionsTable from "../../components/Dashboard/AuctionsTable";
 import { getDashboardStats } from "../../api/auctionApi";
 import { useState, useEffect } from "react";
 
-import { FaGavel, FaFire, FaMoneyBillWave, FaChartLine } from "react-icons/fa";
+import {
+  FaGavel,
+  FaFire,
+  FaMoneyBillWave,
+  FaChartLine,
+} from "react-icons/fa";
 
 function Dashboard() {
   const [stats, setStats] = useState({
@@ -19,7 +24,6 @@ function Dashboard() {
     const fetchDashboardStats = async () => {
       try {
         const data = await getDashboardStats();
-
         setStats(data.stats);
       } catch (error) {
         console.log(error);
@@ -28,16 +32,21 @@ function Dashboard() {
 
     fetchDashboardStats();
   }, []);
+
   return (
-    <div className="flex min-h-screen bg-slate-100 transition-all duration-500 dark:bg-slate-900">
+    <div className="min-h-screen bg-slate-100 transition-all duration-500 dark:bg-slate-900 md:flex">
+      {/* Sidebar */}
+
       <Sidebar />
 
-      <main className="flex-1 p-10 transition-all duration-500">
+      {/* Main */}
+
+      <main className="flex-1 p-4 sm:p-6 lg:p-10 transition-all duration-500">
         <DashboardHeader />
 
         {/* Statistics */}
 
-        <div className="mt-10 grid gap-6 md:grid-cols-2 xl:grid-cols-4">
+        <div className="mt-8 grid grid-cols-1 gap-5 sm:grid-cols-2 xl:grid-cols-4">
           <StatCard
             title="Total Auctions"
             value={stats.totalAuctions}
@@ -67,7 +76,11 @@ function Dashboard() {
           />
         </div>
 
-        <AuctionsTable />
+        {/* Auctions Table */}
+
+        <div className="mt-8">
+          <AuctionsTable />
+        </div>
       </main>
     </div>
   );

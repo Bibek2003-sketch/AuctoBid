@@ -1,131 +1,81 @@
-// =======================================================
-// React Hook
-//
-// useState is used to store the values of:
-// 1. Search text
-// 2. Selected category
-// 3. Selected sorting option
-// =======================================================
-
-import { useState } from "react";
-
-// =======================================================
-// Layout Components
-// =======================================================
+import { useState, useEffect } from "react";
 
 import Navbar from "../../components/Navbar/Navbar";
 import Footer from "../../components/Footer/Footer";
-
-// =======================================================
-// Reusable Components
-// =======================================================
-
 import AuctionSearch from "../../components/AuctionSearch/AuctionSearch";
 import AuctionGrid from "../../components/AuctionGrid/AuctionGrid";
 
-// =======================================================
-// Auction Data
-//
-// Later this data will come from the backend API.
-// =======================================================
-
+import { getAllAuctions } from "../../api/auctionApi";
 
 function Auctions() {
-  // ===================================================
-  // Search Text
-  // ===================================================
-
   const [searchTerm, setSearchTerm] = useState("");
-
-  // ===================================================
-  // Selected Category
-  // ===================================================
-
   const [selectedCategory, setSelectedCategory] = useState("All Categories");
-
-  // ===================================================
-  // Selected Sorting Option
-  // ===================================================
-
   const [selectedSort, setSelectedSort] = useState("Ending Soon");
 
-  // ===================================================
-  // Filter Auctions
-  //
-  // Search by title
-  // Filter by category
-  // ===================================================
+  const [auctions, setAuctions] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-  const filteredAuctions = Auctions.filter((auction) => {
-    // Check search text
+  useEffect(() => {
+    fetchAuctions();
+  }, []);
 
+  const fetchAuctions = async () => {
+    try {
+      const data = await getAllAuctions();
+      setAuctions(data.auctions);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const filteredAuctions = auctions.filter((auction) => {
     const matchesSearch = auction.title
       .toLowerCase()
       .includes(searchTerm.toLowerCase());
-
-    // Check category
 
     const matchesCategory =
       selectedCategory === "All Categories" ||
       auction.category === selectedCategory;
 
-    // Return only matching auctions
-
     return matchesSearch && matchesCategory;
   });
 
-  // ===================================================
-  // Sort Auctions
-  // ===================================================
-
   const sortedAuctions = [...filteredAuctions].sort((a, b) => {
-    // Highest Bid
-
     if (selectedSort === "Highest Bid") {
       return b.currentBid - a.currentBid;
     }
 
-    // Lowest Bid
-
     if (selectedSort === "Lowest Bid") {
       return a.currentBid - b.currentBid;
     }
-
-    // Ending Soon (Default)
 
     return 0;
   });
 
   return (
     <>
-      {/* ==========================================
-          Navigation Bar
-      ========================================== */}
-
       <Navbar />
 
-      {/* ==========================================
-          Hero Banner
-      ========================================== */}
+      {/* Hero */}
 
-      <section className="bg-gradient-to-r from-slate-900 via-slate-800 to-blue-900 py-28">
-        <div className="mx-auto max-w-[1500px] px-8">
-          <h1 className="text-center text-6xl font-bold text-white">
+      <section className="bg-gradient-to-r from-slate-900 via-slate-800 to-blue-900 py-16 sm:py-20 lg:py-28">
+        <div className="mx-auto max-w-7xl px-4 text-center sm:px-6 lg:px-8">
+          <h1 className="text-4xl font-bold text-white sm:text-5xl lg:text-6xl">
             Live Auctions
           </h1>
 
-          <p className="mt-6 text-center text-lg text-slate-300">
+          <p className="mt-5 text-base text-slate-300 sm:text-lg">
             Browse thousands of premium products from trusted sellers across
             India.
           </p>
         </div>
       </section>
 
-      {/* ==========================================
-          Search Section
-      ========================================== */}
+      {/* Search */}
 
-      <div className="mx-auto -mt-10 max-w-[1500px] px-8">
+      <div className="mx-auto -mt-8 max-w-7xl px-4 sm:px-6 lg:px-8">
         <AuctionSearch
           searchTerm={searchTerm}
           setSearchTerm={setSearchTerm}
@@ -136,32 +86,32 @@ function Auctions() {
         />
       </div>
 
-      {/* ==========================================
-          Results Section
-      ========================================== */}
+      {/* Results */}
 
-      <section className="bg-slate-50 py-20">
-        <div className="mx-auto max-w-[1500px] px-8">
-          {/* Total Auctions */}
-
-          <div className="mb-8 flex items-center justify-between">
-            <h2 className="text-3xl font-bold text-slate-800">
+      <section className="bg-slate-50 py-16 sm:py-20">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+            <h2 className="text-2xl font-bold text-slate-800 sm:text-3xl">
               Showing {sortedAuctions.length} Auction
               {sortedAuctions.length !== 1 ? "s" : ""}
             </h2>
 
-            <span className="rounded-full bg-blue-600 px-5 py-2 text-white">
+            <span className="w-fit rounded-full bg-blue-600 px-5 py-2 text-white">
               {selectedCategory}
             </span>
           </div>
 
-          {/* Auction Cards */}
-
-          {sortedAuctions.length > 0 ? (
+          {loading ? (
+            <div className="py-20 text-center">
+              <h2 className="text-2xl font-bold">
+                Loading Auctions...
+              </h2>
+            </div>
+          ) : sortedAuctions.length > 0 ? (
             <AuctionGrid auctions={sortedAuctions} />
           ) : (
             <div className="py-20 text-center">
-              <h2 className="text-3xl font-bold text-slate-700">
+              <h2 className="text-2xl font-bold text-slate-700 sm:text-3xl">
                 No Auctions Found
               </h2>
 
@@ -172,10 +122,6 @@ function Auctions() {
           )}
         </div>
       </section>
-
-      {/* ==========================================
-          Footer
-      ========================================== */}
 
       <Footer />
     </>

@@ -9,7 +9,6 @@ import Macbook from "../../assets/images/hero/Macbook.png";
 import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
 
 function HeroSection({ isLoggedIn }) {
-
   const heroSlides = [
     {
       image: image2,
@@ -48,7 +47,7 @@ function HeroSection({ isLoggedIn }) {
   ];
 
   const [currentSlide, setCurrentSlide] = useState(0);
-  
+
   const heroContent = isLoggedIn
     ? {
         badge: "Welcome Back",
@@ -67,7 +66,6 @@ function HeroSection({ isLoggedIn }) {
         primaryButton: heroSlides[currentSlide].button,
         secondaryButton: "Start Selling",
       };
-  
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -78,7 +76,7 @@ function HeroSection({ isLoggedIn }) {
   }, [heroSlides.length]);
 
   return (
-    <section className="relative h-[650px] overflow-hidden">
+    <section className="relative h-[550px] overflow-hidden sm:h-[600px] lg:h-[650px]">
       {/* Background Image */}
 
       <div
@@ -100,68 +98,75 @@ function HeroSection({ isLoggedIn }) {
             (currentSlide - 1 + heroSlides.length) % heroSlides.length,
           )
         }
-        className="absolute left-8 top-1/2 z-20 -translate-y-1/2 rounded-full bg-black/40 p-3 text-white backdrop-blur transition hover:bg-blue-600"
+        className="absolute left-3 top-1/2 z-20 -translate-y-1/2 rounded-full bg-black/40 p-2 text-white backdrop-blur transition hover:bg-blue-600 sm:left-6 sm:p-3 lg:left-8"
       >
-        <FiChevronLeft size={30} />
+        <FiChevronLeft className="text-xl sm:text-2xl lg:text-3xl" />
       </button>
 
       {/* Next Button */}
 
       <button
         onClick={() => setCurrentSlide((currentSlide + 1) % heroSlides.length)}
-        className="absolute right-8 top-1/2 z-20 -translate-y-1/2 rounded-full bg-black/40 p-3 text-white backdrop-blur transition hover:bg-blue-600"
+        className="absolute right-3 top-1/2 z-20 -translate-y-1/2 rounded-full bg-black/40 p-2 text-white backdrop-blur transition hover:bg-blue-600 sm:right-6 sm:p-3 lg:right-8"
       >
-        <FiChevronRight size={30} />
+        <FiChevronRight className="text-xl sm:text-2xl lg:text-3xl" />
       </button>
 
       {/* Hero Content */}
 
       <div
         key={currentSlide}
-        className="relative z-10 mx-auto flex h-full max-w-[1500px] items-center px-8 animate-fade"
+        className="relative z-10 mx-auto flex h-full max-w-7xl items-center px-4 sm:px-6 lg:px-8 animate-fade"
       >
-        <div className="max-w-2xl">
-          <span className="inline-block rounded-full bg-blue-600 px-5 py-2 text-sm font-semibold text-white">
+        <div className="max-w-3xl">
+          {/* Badge */}
+
+          <span className="inline-block rounded-full bg-blue-600 px-4 py-2 text-xs font-semibold text-white sm:px-5 sm:text-sm">
             {heroContent.badge}
           </span>
 
-          <h1 className="mt-6 text-6xl font-extrabold leading-tight text-white">
+          {/* Heading */}
+
+          <h1 className="mt-5 text-4xl font-extrabold leading-tight text-white sm:text-5xl lg:mt-6 lg:text-6xl xl:text-7xl">
             {heroContent.title}
             <br />
-            <span className="text-blue-500">
-              {heroContent.highlight}
-            </span>
+
+            <span className="text-blue-500">{heroContent.highlight}</span>
           </h1>
 
-          <p className="mt-6 text-lg leading-8 text-white">
+          {/* Description */}
+
+          <p className="mt-5 max-w-2xl text-base leading-7 text-white sm:text-lg sm:leading-8">
             {heroContent.description}
           </p>
 
-          <div className="mt-10 flex gap-5">
-            <button className="rounded-xl bg-blue-600 px-8 py-4 font-semibold text-white transition hover:bg-blue-700">
+          {/* Buttons */}
+
+          <div className="mt-8 flex flex-col gap-4 sm:mt-10 sm:flex-row sm:gap-5">
+            <button className="rounded-xl bg-blue-600 px-6 py-3 font-semibold text-white transition hover:bg-blue-700 sm:px-8 sm:py-4">
               {heroContent.primaryButton}
             </button>
 
-            <button className="rounded-xl border border-white px-8 py-4 font-semibold text-white transition hover:bg-white hover:text-black">
+            <button className="rounded-xl border border-white px-6 py-3 font-semibold text-white transition hover:bg-white hover:text-black sm:px-8 sm:py-4">
               {heroContent.secondaryButton}
             </button>
           </div>
         </div>
       </div>
 
-      {/* Slide Indicators */}
+      {/* Indicators */}
 
-      <div className="absolute bottom-8 left-1/2 z-20 flex -translate-x-1/2 gap-3">
+      <div className="absolute bottom-6 left-1/2 z-20 flex -translate-x-1/2 gap-2 sm:bottom-8 sm:gap-3">
         {heroSlides.map((_, index) => (
           <button
             key={index}
             onClick={() => setCurrentSlide(index)}
             className={`transition-all duration-300 ${
               currentSlide === index
-                ? "h-3 w-10 rounded-full bg-blue-600"
-                : "h-3 w-3 rounded-full bg-white"
+                ? "h-2 w-8 rounded-full bg-blue-600 sm:h-3 sm:w-10"
+                : "h-2 w-2 rounded-full bg-white sm:h-3 sm:w-3"
             }`}
-          ></button>
+          />
         ))}
       </div>
     </section>

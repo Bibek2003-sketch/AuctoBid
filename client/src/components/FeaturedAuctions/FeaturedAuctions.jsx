@@ -124,59 +124,51 @@ function FeaturedAuctions({
   }
 
   return (
-    <section className="bg-slate-50 py-24 transition-colors duration-300 dark:bg-slate-950">
-      <div className="mx-auto max-w-[1500px] px-8">
+    <section className="bg-slate-50 py-16 transition-colors duration-300 dark:bg-slate-950 sm:py-20 lg:py-24">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         {/* Trending Badge */}
 
         <div className="flex justify-center">
-          <div className="flex items-center gap-2 rounded-full bg-orange-100 px-5 py-2 text-orange-600">
+          <div className="flex items-center gap-2 rounded-full bg-orange-100 px-4 py-2 text-sm font-semibold text-orange-600 sm:px-5 sm:text-base">
             <FaFire />
-
-            <span className="font-semibold">TRENDING NOW</span>
+            <span>TRENDING NOW</span>
           </div>
         </div>
 
         {/* Heading */}
 
-        <h2 className="mt-6 text-center text-6xl font-extrabold text-slate-900 dark:text-white">
-          {" "}
+        <h2 className="mt-6 text-center text-3xl font-extrabold text-slate-900 dark:text-white sm:text-4xl lg:text-5xl xl:text-6xl">
           Featured Auctions
         </h2>
 
-        <p className="mx-auto mt-5 max-w-3xl text-center text-lg text-slate-500 dark:text-slate-400">
-          {" "}
+        <p className="mx-auto mt-5 max-w-3xl px-2 text-center text-base text-slate-500 dark:text-slate-400 sm:text-lg">
           Handpicked premium auctions with exciting bids and unbeatable prices.
         </p>
 
         {/* View All Button */}
-        <Link
-          to="/auctions"
-          className="flex w-40 items-center gap-3 rounded-full border border-blue-600 px-6 py-3 text-blue-600 transition hover:bg-blue-600 hover:text-white dark:border-blue-500 dark:text-blue-400"
-        >
-          View All
-          <FiArrowRight />
-        </Link>
 
-        {/* ===============================================
-    Auction Grid
+        <div className="mt-8 flex justify-center sm:justify-end">
+          <Link
+            to="/auctions"
+            className="flex items-center gap-2 rounded-full border border-blue-600 px-5 py-3 text-sm font-medium text-blue-600 transition hover:bg-blue-600 hover:text-white dark:border-blue-500 dark:text-blue-400 sm:px-6 sm:text-base"
+          >
+            View All
+            <FiArrowRight />
+          </Link>
+        </div>
 
-    If auctions are available,
-    display them using the reusable
-    AuctionGrid component.
+        {/* Auction Grid */}
 
-    Otherwise show a friendly message.
-=============================================== */}
-
-        <div className="mt-14">
+        <div className="mt-12 sm:mt-14">
           {sortedAuctions.length > 0 ? (
             <AuctionGrid auctions={sortedAuctions} />
           ) : (
-            <div className="text-center">
-             <h3 className="text-3xl font-bold text-slate-700 dark:text-white">
+            <div className="py-10 text-center">
+              <h3 className="text-2xl font-bold text-slate-700 dark:text-white sm:text-3xl">
                 No Auction Found
               </h3>
 
-              <p className="mt-3 text-slate-500 dark:text-slate-400">
+              <p className="mt-3 text-sm text-slate-500 dark:text-slate-400 sm:text-base">
                 Try searching for another product.
               </p>
             </div>

@@ -1,30 +1,18 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { FaUser, FaEnvelope, FaPhone } from "react-icons/fa";
-import { FaArrowLeft } from "react-icons/fa";
+import { FaUser, FaEnvelope, FaPhone, FaArrowLeft } from "react-icons/fa";
 
 import InputField from "../../components/InputField/InputField";
 import PasswordField from "../../components/PasswordField/PasswordField";
 import AuthLayout from "../../components/AuthLayout/AuthLayout";
-// ==========================================
-// Axios API
-// ==========================================
 
 import API from "../../api/axios";
-import {toast} from "react-toastify"
+import { toast } from "react-toastify";
 
 function Register() {
-  // ==========================
-  // States
-  // ==========================
-
-  // Show / Hide Password
   const [showPassword, setShowPassword] = useState(false);
-
-  // Show / Hide Confirm Password
   const [showConfirm, setShowConfirm] = useState(false);
 
-  // Store all form values
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -33,22 +21,10 @@ function Register() {
     confirmPassword: "",
   });
 
-  // Store validation errors
   const [errors, setErrors] = useState({});
-
-  // Loading State
-
   const [loading, setLoading] = useState(false);
 
-  // ==========================================
-  // Navigation
-  // ==========================================
-
   const navigate = useNavigate();
-
-  // ==========================
-  // Handle Input Change
-  // ==========================
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -58,49 +34,39 @@ function Register() {
       [name]: value,
     }));
 
-    // Remove error while typing
     setErrors((prev) => ({
       ...prev,
       [name]: "",
     }));
   };
 
-  // ==========================
-  // Validation
-  // ==========================
-
   const validateForm = () => {
     let newErrors = {};
 
-    // Name
     if (formData.name.trim() === "") {
       newErrors.name = "Full Name is required.";
     } else if (formData.name.length < 3) {
       newErrors.name = "Name must be at least 3 characters.";
     }
 
-    // Email
     if (formData.email.trim() === "") {
       newErrors.email = "Email is required.";
     } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
       newErrors.email = "Please enter a valid email.";
     }
 
-    // Phone
     if (formData.phone.trim() === "") {
       newErrors.phone = "Phone number is required.";
     } else if (!/^[0-9]{10}$/.test(formData.phone)) {
       newErrors.phone = "Phone number must contain exactly 10 digits.";
     }
 
-    // Password
     if (formData.password === "") {
       newErrors.password = "Password is required.";
     } else if (formData.password.length < 8) {
       newErrors.password = "Password must be at least 8 characters.";
     }
 
-    // Confirm Password
     if (formData.confirmPassword === "") {
       newErrors.confirmPassword = "Please confirm your password.";
     } else if (formData.password !== formData.confirmPassword) {
@@ -112,101 +78,67 @@ function Register() {
     return Object.keys(newErrors).length === 0;
   };
 
-  // ==========================
-  // Submit
-  // ==========================
-
-  // ==========================================
-  // Submit Form
-  // ==========================================
-
   const handleSubmit = async (e) => {
-    // Prevent page refresh
     e.preventDefault();
 
-    // Validate form first
-
-    if (!validateForm()) {
-      return;
-    }
+    if (!validateForm()) return;
 
     try {
-      // Start loading
-
       setLoading(true);
-
-      // Send data to backend
 
       const response = await API.post("/users/register", {
         name: formData.name,
-
         email: formData.email,
-
         password: formData.password,
       });
 
-      // Show success message
-
       toast.success(response.data.message);
-
-      // Clear form
 
       setFormData({
         name: "",
-
         email: "",
-
         phone: "",
-
         password: "",
-
         confirmPassword: "",
       });
-
-      // Redirect to Login Page
 
       navigate("/login");
     } catch (error) {
       toast.error(error.response?.data?.message || "Registration Failed");
     } finally {
-      // Stop loading
-
       setLoading(false);
     }
   };
-  // Helper function for border color
-  const inputClass = (field) =>
-    `w-full rounded-xl border py-3 pl-12 pr-12 outline-none transition ${
-      errors[field]
-        ? "border-red-500 focus:border-red-500"
-        : "border-slate-300 focus:border-blue-600"
-    }`;
-
-  // ==========================
-  // UI
-  // ==========================
 
   return (
     <AuthLayout>
-      <div className="w-full max-w-md rounded-3xl bg-white p-10 shadow-2xl">
-        <div className="px-1">
-          <Link
-            to="/"
-            className="mb-6 inline-flex items-center gap-2 text-slate-600 transition hover:text-blue-600"
-          >
-            <FaArrowLeft className="text-sm" />
-            Back to Home
-          </Link>
-          <h1 className="text-4xl font-bold text-slate-900">
-            {loading ? "Creating Account..." : "Create Account"}
-          </h1>
+      <div className="w-full max-w-md rounded-3xl bg-white p-6 shadow-2xl sm:p-8 lg:p-10">
+        {/* Back */}
 
-          <p className="mt-3 text-slate-500">
-            Join AuctoBid and start bidding today.
-          </p>
-        </div>
+        <Link
+          to="/"
+          className="inline-flex items-center gap-2 text-sm text-slate-600 transition hover:text-blue-600 sm:text-base"
+        >
+          <FaArrowLeft />
+          Back to Home
+        </Link>
 
-        <form onSubmit={handleSubmit} className="mt-8 space-y-5">
+        {/* Heading */}
+
+        <h1 className="mt-6 text-2xl font-bold text-slate-900 sm:text-3xl lg:text-4xl">
+          {loading ? "Creating Account..." : "Create Account"}
+        </h1>
+
+        <p className="mt-3 text-sm text-slate-500 sm:text-base">
+          Join AuctoBid and start bidding today.
+        </p>
+
+        {/* Form */}
+
+        <form
+          onSubmit={handleSubmit}
+          className="mt-8 space-y-5"
+        >
           <InputField
             icon={FaUser}
             type="text"
@@ -216,8 +148,6 @@ function Register() {
             onChange={handleChange}
             error={errors.name}
           />
-
-          {/* Email */}
 
           <InputField
             icon={FaEnvelope}
@@ -229,8 +159,6 @@ function Register() {
             error={errors.email}
           />
 
-          {/* Phone */}
-
           <InputField
             icon={FaPhone}
             type="tel"
@@ -241,8 +169,6 @@ function Register() {
             error={errors.phone}
           />
 
-          {/* Password */}
-
           <PasswordField
             name="password"
             placeholder="Password"
@@ -252,8 +178,6 @@ function Register() {
             showPassword={showPassword}
             togglePassword={() => setShowPassword(!showPassword)}
           />
-
-          {/* Confirm Password */}
 
           <PasswordField
             name="confirmPassword"
@@ -267,14 +191,16 @@ function Register() {
 
           <button
             type="submit"
-            className="w-full rounded-xl bg-blue-600 py-3 text-lg font-semibold text-white transition hover:bg-blue-700"
+            className="w-full rounded-xl bg-blue-600 py-3 text-base font-semibold text-white transition hover:bg-blue-700 sm:text-lg"
           >
-            Create Account
+            {loading ? "Creating Account..." : "Create Account"}
           </button>
         </form>
 
+        {/* Login */}
+
         <div className="mt-8 text-center">
-          <p className="text-slate-500">
+          <p className="text-sm text-slate-500 sm:text-base">
             Already have an account?
             <Link
               to="/login"

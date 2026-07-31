@@ -1,38 +1,28 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-// axios
 import API from "../../api/axios";
+
 import { FaEnvelope, FaArrowLeft } from "react-icons/fa";
 
 import InputField from "../../components/InputField/InputField";
 import PasswordField from "../../components/PasswordField/PasswordField";
 import AuthLayout from "../../components/AuthLayout/AuthLayout";
+
 import { toast } from "react-toastify";
-import ForgotPassword from "../ForgotPassword/ForgotPassword";
 
 function Login() {
-  // ==========================
-  // States
-  // ==========================
-
-  // Show / Hide Password
   const [showPassword, setShowPassword] = useState(false);
 
-  // Store all form values
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
 
-  // Store validation errors
   const [errors, setErrors] = useState({});
 
-  // loading state
   const [loading, setLoading] = useState(false);
 
-  // ==========================
-  // Handle Input Change
-  // ==========================
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -42,28 +32,21 @@ function Login() {
       [name]: value,
     }));
 
-    // Remove error while typing
     setErrors((prev) => ({
       ...prev,
       [name]: "",
     }));
   };
 
-  // ==========================
-  // Validation
-  // ==========================
-
   const validateForm = () => {
     let newErrors = {};
 
-    // Email
     if (formData.email.trim() === "") {
       newErrors.email = "Email is required.";
     } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
       newErrors.email = "Please enter a valid email.";
     }
 
-    // Password
     if (formData.password === "") {
       newErrors.password = "Password is required.";
     } else if (formData.password.length < 8) {
@@ -74,19 +57,11 @@ function Login() {
 
     return Object.keys(newErrors).length === 0;
   };
-  // create navigate
-  const navigate = useNavigate();
-
-  // ==========================
-  // Submit
-  // ==========================
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!validateForm()) {
-      return;
-    }
+    if (!validateForm()) return;
 
     try {
       setLoading(true);
@@ -96,15 +71,11 @@ function Login() {
         password: formData.password,
       });
 
-      // Save JWT Token
       localStorage.setItem("token", response.data.token);
-
-      // Save logged-in user
       localStorage.setItem("user", JSON.stringify(response.data.user));
 
       toast.success("Login Successful");
 
-      // Redirect to Dashboard
       navigate("/");
     } catch (error) {
       toast.error(error.response?.data?.message || "Login Failed");
@@ -113,29 +84,35 @@ function Login() {
     }
   };
 
-  // UI
-
   return (
     <AuthLayout>
-      <div className="w-full max-w-md rounded-3xl bg-white p-10 shadow-2xl">
-        <div className="px-1">
-          <Link
-            to="/"
-            className="mb-6 inline-flex items-center gap-2 text-slate-600 transition hover:text-blue-600"
-          >
-            <FaArrowLeft className="text-sm" />
-            Back to Home
-          </Link>
-          <h1 className="text-4xl font-bold text-slate-900">Sign-In</h1>
+      <div className="w-full max-w-md rounded-3xl bg-white p-6 shadow-2xl sm:p-8 lg:p-10">
+        {/* Back */}
 
-          <p className="mt-3 text-slate-500">
-            Sign in to continue bidding on your favorite auctions.
-          </p>
-        </div>
+        <Link
+          to="/"
+          className="inline-flex items-center gap-2 text-sm text-slate-600 transition hover:text-blue-600 sm:text-base"
+        >
+          <FaArrowLeft />
+          Back to Home
+        </Link>
 
-        <form onSubmit={handleSubmit} className="mt-8 space-y-5  dark:bg-white">
-          {/* Email */}
+        {/* Heading */}
 
+        <h1 className="mt-6 text-2xl font-bold text-slate-900 sm:text-3xl lg:text-4xl">
+          Sign In
+        </h1>
+
+        <p className="mt-3 text-sm text-slate-500 sm:text-base">
+          Sign in to continue bidding on your favorite auctions.
+        </p>
+
+        {/* Form */}
+
+        <form
+          onSubmit={handleSubmit}
+          className="mt-8 space-y-5"
+        >
           <InputField
             icon={FaEnvelope}
             type="email"
@@ -146,8 +123,6 @@ function Login() {
             error={errors.email}
           />
 
-          {/* Password */}
-
           <PasswordField
             name="password"
             placeholder="Password"
@@ -155,7 +130,9 @@ function Login() {
             onChange={handleChange}
             error={errors.password}
             showPassword={showPassword}
-            togglePassword={() => setShowPassword(!showPassword)}
+            togglePassword={() =>
+              setShowPassword(!showPassword)
+            }
           />
 
           <div className="flex justify-end">
@@ -169,14 +146,16 @@ function Login() {
 
           <button
             type="submit"
-            className="w-full rounded-xl bg-blue-600 py-3 text-lg font-semibold text-white transition hover:bg-blue-700"
+            className="w-full rounded-xl bg-blue-600 py-3 text-base font-semibold text-white transition hover:bg-blue-700 sm:text-lg"
           >
-            {loading ? "Signing In..." : "Sign-In"}
+            {loading ? "Signing In..." : "Sign In"}
           </button>
         </form>
 
+        {/* Register */}
+
         <div className="mt-8 text-center">
-          <p className="text-slate-500">
+          <p className="text-sm text-slate-500 sm:text-base">
             Don't have an account?
             <Link
               to="/register"
