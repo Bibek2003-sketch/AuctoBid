@@ -1,31 +1,36 @@
-const express = require('express')
-const cors = require('cors')
-const dotenv = require('dotenv')
-dotenv.config()
-const userRoutes = require('./routes/userRoutes')
-const auctionRoutes = require('./routes/auctionRoutes')
+const express = require("express");
+const cors = require("cors");
+const dotenv = require("dotenv");
+dotenv.config();
+const userRoutes = require("./routes/userRoutes");
+const auctionRoutes = require("./routes/auctionRoutes");
 
 // create express app
-const app = express()
+const app = express();
 
 // middlewares
 // allow requests from frontend
-app.use(cors())
+app.use(
+  cors({
+    origin: process.env.FRONTEND_URL,
+    credentials: true,
+  }),
+);
 
 // parse incoming json
-app.use(express.json())
+app.use(express.json());
 
 // user routes
-app.use('/api/users', userRoutes)
+app.use("/api/users", userRoutes);
 // auction routes
-app.use('/api/auctions', auctionRoutes)
+app.use("/api/auctions", auctionRoutes);
 
 // test route
-app.get('/', (req, res) => {
-    res.json({
-        success: true,
-        message: "Welcome to the AuctoBid API"
-    })
-})
+app.get("/", (req, res) => {
+  res.json({
+    success: true,
+    message: "Welcome to the AuctoBid API",
+  });
+});
 
-module.exports = app
+module.exports = app;
