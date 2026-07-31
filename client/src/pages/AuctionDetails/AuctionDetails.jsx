@@ -2,6 +2,8 @@ import { useParams, Link } from "react-router-dom";
 import { FaArrowLeft, FaClock, FaGavel, FaUser } from "react-icons/fa";
 import { useEffect, useState } from "react";
 import { getAuctionById, placeBid } from "../../api/auctionApi";
+
+import socket from "../../socket";
 function AuctionDetails() {
   // Get the id from the URL
   const { id } = useParams();
@@ -11,7 +13,21 @@ function AuctionDetails() {
   const [bidAmount, setBidAmount] = useState("");
 
   useEffect(() => {
+    console.log("Auction ID:", id);
+
+    socket.emit("joinAuction", {
+      auctionId: id,
+    });
+
+    console.log("joinAuction emitted");
     fetchAuction();
+    return () => {
+      socket.emit("leaveAuction", {
+        auctionId: id,
+      })
+      console.log("leaveAuction emitted");
+    }
+
   }, [id]);
 
   const fetchAuction = async () => {
@@ -25,8 +41,20 @@ function AuctionDetails() {
     }
   };
 
-  const handlePlaceBid = async () => {
+  // useEffect for newBid socket connection
+  useEffect(() => {
+    const handleNewBid = (data) => {
+      console.log("New bid received:", data);
+    };
 
+    socket.on("newBid", handleNewBid);
+
+    return () => {
+      socket.off("newBid", handleNewBid);
+    };
+  }, []);
+
+  const handlePlaceBid = async () => {
     try {
       const data = await placeBid(id, Number(bidAmount));
 
@@ -57,7 +85,6 @@ function AuctionDetails() {
     );
   }
 
-  
   return (
     <section className="bg-slate-100 py-12">
       <div className="mx-auto max-w-7xl px-6">

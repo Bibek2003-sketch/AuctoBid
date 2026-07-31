@@ -264,7 +264,7 @@ const getDashboardStats = async (req, res) => {
 };
 
 const placeBid = async (req, res) => {
-  console.log("placeBid controller reached");
+  const io = req.app.get("io")
   try {
     // Auction ID
     const { id } = req.params;
@@ -347,6 +347,15 @@ const placeBid = async (req, res) => {
     });
 
     await auction.save();
+
+    // socket connection for live auction update
+    console.log("Broadcasting newBid...");
+
+io.to(auction._id.toString()).emit("newBid", {
+    auction,
+});
+
+console.log("Broadcast finished");
 
     res.status(200).json({
       success: true,
