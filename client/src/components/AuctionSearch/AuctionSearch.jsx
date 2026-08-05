@@ -10,7 +10,7 @@ function AuctionSearch({
   setSelectedSort,
 }) {
   return (
-    <section className="sticky top-0 z-20 px-4 py-4 sm:px-6 lg:px-8">
+    <section className="relative z-20 px-4 py-4 sm:px-6 lg:px-8">
       <div className="mx-auto max-w-7xl rounded-3xl bg-white p-5 shadow-2xl shadow-amber-400 transition-colors duration-300 dark:bg-slate-900 dark:shadow-black/30 sm:p-6 lg:p-8">
         {/* Heading */}
 

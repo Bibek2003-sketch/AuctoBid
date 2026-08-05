@@ -1,5 +1,7 @@
 import Sidebar from "../../components/Dashboard/Sidebar";
 import DashboardHeader from "../../components/Dashboard/DashboardHeader";
+import { FaEdit } from "react-icons/fa";
+import {Link} from "react-router-dom"
 
 function Profile() {
   const user = JSON.parse(localStorage.getItem("user"));
@@ -34,9 +36,9 @@ function Profile() {
                 {user?.role}
               </span>
 
-              <button className="mt-8 w-full rounded-xl bg-blue-600 py-3 font-semibold text-white transition hover:bg-blue-700">
+              <Link to="/edit-profile" className="mt-8 w-full rounded-xl bg-blue-600 justify-center px-40 py-3 font-semibold text-white transition hover:bg-blue-700">
                 Edit Profile
-              </button>
+              </Link>
             </div>
           </div>
 
@@ -54,7 +56,7 @@ function Profile() {
                 </p>
 
                 <h3 className="mt-2 text-base font-semibold sm:text-lg dark:text-white">
-                  {user?.name}
+                  {user?.name}  <FaEdit/>
                 </h3>
               </div>
 
@@ -64,7 +66,7 @@ function Profile() {
                 </p>
 
                 <h3 className="mt-2 break-all text-base font-semibold sm:text-lg dark:text-white">
-                  {user?.email}
+                  <div>{user?.email}  <FaEdit/></div>
                 </h3>
               </div>
 

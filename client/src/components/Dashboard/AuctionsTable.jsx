@@ -69,6 +69,11 @@ function AuctionsTable() {
     }
   };
 
+  const activeAuctions = auctions.filter(
+    (auction) => auction.status === "active"
+  )
+  
+
   return (
     <div className="mt-8 overflow-x-auto">
       <table className="min-w-[900px] w-full">
@@ -112,7 +117,7 @@ function AuctionsTable() {
 
               <td>
                 <span className="rounded-full bg-green-100 px-3 py-1 text-xs font-semibold text-green-600 sm:text-sm">
-                  Live
+                  {auction.status.toUpperCase()}
                 </span>
               </td>
 

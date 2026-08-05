@@ -27,6 +27,7 @@ function AuctionCard({
           />
 
           {/* Live Badge */}
+          
           <span className="absolute left-3 top-3 rounded-full bg-red-500 px-3 py-1 text-xs font-semibold text-white sm:left-4 sm:top-4 sm:px-4 sm:py-2 sm:text-sm">
             LIVE
           </span>
@@ -52,7 +53,7 @@ function AuctionCard({
           {/* Timer */}
           <div className="absolute bottom-3 right-3 flex items-center gap-1 rounded-full bg-black/70 px-3 py-1 text-xs text-white backdrop-blur-md sm:bottom-4 sm:right-4 sm:gap-2 sm:px-4 sm:py-2 sm:text-sm">
             <FiClock />
-            <CountdownTimer timeLeft={endTime} />
+            <CountdownTimer endTime={endTime} />
           </div>
         </div>
 
@@ -87,12 +88,6 @@ function AuctionCard({
             </div>
           </div>
 
-          {/* Progress */}
-          <div className="mt-5">
-            <div className="h-2 rounded-full bg-slate-200">
-              <div className="h-2 w-3/4 rounded-full bg-blue-600"></div>
-            </div>
-          </div>
 
           {/* Footer */}
           <div className="mt-4 flex items-center justify-between">

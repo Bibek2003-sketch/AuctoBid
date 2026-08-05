@@ -1,12 +1,13 @@
 // import Auction model
 const Auctions = require("../models/Auctions");
 const Auction = require("../models/Auctions");
+const updateExpiredAuctions = require("../utils/updateAuctionStatus");
 
 // create Auction
 // POST /api/auctions
 
 const createAuction = async (req, res) => {
-  
+  await updateExpiredAuctions();
   try {
     // get data from request body
     const {
@@ -66,6 +67,7 @@ const createAuction = async (req, res) => {
 // GET /api/auctions
 
 const getAllAuctions = async (req, res) => {
+  await updateExpiredAuctions();
   try {
     const auctions = await Auction.find()
       .populate("seller", "name email")
@@ -91,11 +93,12 @@ const getAllAuctions = async (req, res) => {
 // =======================================================
 
 const getAuctionById = async (req, res) => {
+  await updateExpiredAuctions();
   try {
-    const auction = await Auction.findById(req.params.id).populate(
-      "seller",
-      "name email",
-    );
+    const auction = await Auction.findById(req.params.id)
+      .populate("seller", "name email")
+      .populate("highestBidder", "name")
+      .populate("bidHistory.bidder", "name");
 
     if (!auction) {
       return res.status(404).json({
@@ -120,6 +123,7 @@ const getAuctionById = async (req, res) => {
 //PUT /api/auctions/:id
 
 const updateAuction = async (req, res) => {
+  await updateExpiredAuctions();
   try {
     // Find auction
     const auction = await Auctions.findById(req.params.id);
@@ -167,6 +171,7 @@ const updateAuction = async (req, res) => {
 // DELETE /api/auctions/:id
 
 const deleteAuction = async (req, res) => {
+  await updateExpiredAuctions();
   try {
     // Find Auction
     const auction = await Auctions.findById(req.params.id);
@@ -202,56 +207,41 @@ const deleteAuction = async (req, res) => {
   }
 };
 
-// GET all auctions created by the logged-in user
-const getMyAuctions = async (req, res) => {
-  try {
-    const auctions = await Auctions.find({
-      seller: req.user.id,
-    })
-      .populate("seller", "name email role")
-      .sort({ createdAt: -1 });
-
-    res.status(200).json({
-      success: true,
-      count: auctions.length,
-      auctions,
-    });
-  } catch (error) {
-    res.status(500).json({
-      success: false,
-      message: error.message,
-    });
-  }
-};
-
 const getDashboardStats = async (req, res) => {
+  await updateExpiredAuctions();
+
   try {
-    // find all auctions created by the logged-in seller
+    // Find all auctions created by the logged-in seller
     const auctions = await Auction.find({
       seller: req.user.id,
     });
 
-    // total auctions
+    // Total auctions
     const totalAuctions = auctions.length;
 
-    // Active Auctions
+    // Active auctions
     const activeAuctions = auctions.filter(
       (auction) => auction.status === "active",
     ).length;
 
-    // revenue
-    const revenue = auctions.reduce(
-      (total, auction) => total + auction.currentBid,
+    // Total bids across all auctions
+    const totalBids = auctions.reduce(
+      (total, auction) => total + auction.bidHistory.length,
       0,
     );
 
-    // total Bids
+    // Revenue from ended auctions only
+    const revenue = auctions
+      .filter((auction) => auction.status === "ended")
+      .reduce((total, auction) => total + auction.currentBid, 0);
+
+    // Send ONE response only
     res.status(200).json({
       success: true,
       stats: {
         totalAuctions,
         activeAuctions,
-        totalBids: 0,
+        totalBids,
         revenue,
       },
     });
@@ -262,21 +252,15 @@ const getDashboardStats = async (req, res) => {
     });
   }
 };
-
 const placeBid = async (req, res) => {
-  const io = req.app.get("io")
+  await updateExpiredAuctions();
+  const io = req.app.get("io");
   try {
     // Auction ID
     const { id } = req.params;
     console.log(id);
     // bid amount
     const { amount } = req.body;
-
-    console.log("========== PLACE BID ==========");
-    console.log("req.body:", req.body);
-    console.log("amount:", amount);
-    console.log("typeof amount:", typeof amount);
-    console.log("req.user:", req.user);
 
     // check if the entered amount is a valid number
     if (!amount || isNaN(amount)) {
@@ -349,13 +333,17 @@ const placeBid = async (req, res) => {
     await auction.save();
 
     // socket connection for live auction update
-    console.log("Broadcasting newBid...");
+    // Get bidder name
+    await auction.populate("highestBidder", "name");
+    // broadcasting to everyone in the room of this auction
 
-io.to(auction._id.toString()).emit("newBid", {
-    auction,
-});
-
-console.log("Broadcast finished");
+    io.to(auction._id.toString()).emit("newBid", {
+      amount: auction.currentBid,
+      bidder: auction.highestBidder.name,
+      currentBid: auction.currentBid,
+      highestBidder: auction.highestBidder,
+      bidHistory: auction.bidHistory,
+    });
 
     res.status(200).json({
       success: true,
@@ -372,6 +360,7 @@ console.log("Broadcast finished");
 
 // logged in user bid details
 const getMyBids = async (req, res) => {
+  await updateExpiredAuctions();
   try {
     const userId = req.user.id;
 
@@ -394,14 +383,44 @@ const getMyBids = async (req, res) => {
   }
 };
 
+// Get My Auctions
+// returns every auctions created by the  currently logged-in seller.
+const getMyAuctions = async (req, res) => {
+  await updateExpiredAuctions();
+  try {
+    // logged-in seller ID
+    const sellerId = req.user.id;
+
+    // find only this seller's auctions
+    const auctions = await Auction.find({ seller: sellerId })
+      // show seller details
+      .populate("seller", "name email")
+      // show highest bidder
+      .populate("highestBidder", "name")
+      // sort by latest auction first
+      .sort({ createdAt: -1 });
+
+    res.status(200).json({
+      success: true,
+      count: auctions.length,
+      auctions,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
 module.exports = {
   createAuction,
   getAllAuctions,
   getAuctionById,
   updateAuction,
   deleteAuction,
-  getMyAuctions,
   getDashboardStats,
   placeBid,
   getMyBids,
+  getMyAuctions,
 };

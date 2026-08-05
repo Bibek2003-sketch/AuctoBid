@@ -13,7 +13,7 @@ const {
   getMyAuctions,
   getDashboardStats,
   placeBid,
-  getMyBids
+  getMyBids,
 } = require("../controllers/auctionController");
 
 router.post("/", protect, upload.single("image"), createAuction);
