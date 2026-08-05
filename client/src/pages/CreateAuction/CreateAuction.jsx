@@ -21,6 +21,14 @@ function CreateAuction() {
     endTime: "",
   });
 
+  // ======================================================
+  // Image Preview
+  //
+  // Stores a temporary preview of the selected image.
+  // ======================================================
+
+  const [imagePreview, setImagePreview] = useState(null);
+
   const handleChange = (e) => {
     setFormData((prev) => ({
       ...prev,
@@ -113,6 +121,7 @@ function CreateAuction() {
               <input
                 type="text"
                 name="title"
+                placeholder="Enter product name"
                 value={formData.title}
                 onChange={handleChange}
                 className="w-full rounded-xl border p-3 dark:text-white"
@@ -128,6 +137,7 @@ function CreateAuction() {
               <textarea
                 rows="6"
                 name="description"
+                placeholder="Enter product description"
                 value={formData.description}
                 onChange={handleChange}
                 className="w-full rounded-xl border p-3 dark:text-white"
@@ -177,22 +187,127 @@ function CreateAuction() {
           {/* Right Column */}
 
           <div className="space-y-6">
+            {/* ======================================================
+    Auction Image Upload
+====================================================== */}
+
             <div>
-              <label className="mb-2 block font-semibold dark:text-white">
-                Upload Image
+              <label className="mb-3 block font-semibold text-slate-900 dark:text-white">
+                Auction Image
               </label>
 
-              <input
-                type="file"
-                accept="image/*"
-                onChange={(e) =>
-                  setFormData((prev) => ({
-                    ...prev,
-                    image: e.target.files[0],
-                  }))
-                }
-                className="w-full rounded-xl border p-3 dark:text-white"
-              />
+              {/* Upload Box */}
+
+              <div
+                className="
+      rounded-2xl
+      border-2
+      border-dashed
+      border-slate-400
+      bg-slate-50
+      p-8
+      text-center
+      transition
+      hover:border-blue-500
+      hover:bg-slate-100
+      dark:border-slate-600
+      dark:bg-slate-800
+      dark:hover:bg-slate-700
+    "
+              >
+                {/* Hidden File Input */}
+
+                <input
+                  id="auctionImage"
+                  type="file"
+                  accept="image/*"
+                  className="hidden"
+                  onChange={(e) => {
+                    const file = e.target.files[0];
+
+                    if (!file) return;
+
+                    // Save image for backend
+                    setFormData((prev) => ({
+                      ...prev,
+                      image: file,
+                    }));
+
+                    // Create preview
+                    setImagePreview(URL.createObjectURL(file));
+                  }}
+                />
+
+                {/* Clickable Area */}
+
+                <label htmlFor="auctionImage" className="cursor-pointer">
+                  {imagePreview ? (
+                    <>
+                      {/* Image Preview */}
+
+                      <img
+                        src={imagePreview}
+                        alt="Auction Preview"
+                        className="
+              mx-auto
+              h-64
+              w-full
+              max-w-md
+              rounded-xl
+              object-cover
+              shadow-lg
+            "
+                      />
+
+                      <p className="mt-5 font-semibold text-blue-600">
+                        📷 Click to change image
+                      </p>
+
+                      <button
+                        type="button"
+                        onClick={() => {
+                          // Remove preview
+                          setImagePreview(null);
+
+                          // Remove image from form data
+                          setFormData((prev) => ({
+                            ...prev,
+                            image: null,
+                          }));
+
+                          // Reset the hidden file input
+                          document.getElementById("auctionImage").value = "";
+                        }}
+                        className="
+    mt-4
+    rounded-lg
+    bg-red-600
+    px-5
+    py-2
+    font-semibold
+    text-white
+    transition
+    hover:bg-red-700
+  "
+                      >
+                        🗑 Remove Image
+                      </button>
+                    </>
+                  ) : (
+                    <>
+                      <div className="text-6xl">📷</div>
+
+                      <h3 className="mt-4 text-xl font-semibold text-slate-800 dark:text-white">
+                        Click to upload auction image
+                      </h3>
+
+                      <p className="mt-2 text-slate-500 dark:text-slate-400">
+                        JPG, PNG or JPEG • Maximum 20 MB
+                      </p>
+                    </>
+                  )}
+                </label>
+              </div>
             </div>
 
             <div>
@@ -203,6 +318,7 @@ function CreateAuction() {
               <input
                 type="number"
                 name="startingBid"
+                placeholder="Minimum initial amount to be set for auction"
                 value={formData.startingBid}
                 onChange={handleChange}
                 className="w-full rounded-xl border p-3 dark:text-white"
@@ -218,6 +334,7 @@ function CreateAuction() {
               <input
                 type="number"
                 name="minimumIncrement"
+                placeholder="Minimum increment amount for every subsequent auction"
                 value={formData.minimumIncrement}
                 onChange={handleChange}
                 className="w-full rounded-xl border p-3 dark:text-white"
@@ -232,11 +349,15 @@ function CreateAuction() {
 
               <input
                 type="datetime-local"
-                name="endTime"
                 value={formData.endTime}
-                onChange={handleChange}
+                onClick={(e) => e.target.showPicker()}
+                onChange={(e) =>
+                  setFormData((prev) => ({
+                    ...prev,
+                    endTime: e.target.value,
+                  }))
+                }
                 className="w-full rounded-xl border p-3 dark:text-white"
-                required
               />
             </div>
           </div>

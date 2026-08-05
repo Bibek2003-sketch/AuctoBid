@@ -25,7 +25,7 @@ import CountdownTimer from "../CountdownTimer/CountdownTimer";
 // from the backend.
 // ======================================================
 
-function MyAuctionCard({ auction }) {
+function MyAuctionCard({ auction, onDelete }) {
   return (
     <div
       className="
@@ -170,18 +170,8 @@ function MyAuctionCard({ auction }) {
           {/* Delete */}
 
           <button
-            className="
-              flex
-              items-center
-              justify-center
-              gap-2
-              rounded-xl
-              bg-red-600
-              py-3
-              text-white
-              transition
-              hover:bg-red-700
-            "
+            onClick={() => onDelete(auction._id)}
+            className="flex items-center justify-center text-white bg-red-600 rounded-xl transition hover:bg-red-700 cursor-pointer"
           >
             <FaTrash />
           </button>

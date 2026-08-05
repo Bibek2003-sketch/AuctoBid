@@ -1,5 +1,7 @@
 import "./Navbar.css";
 import { Link, useNavigate } from "react-router-dom";
+import { useState } from "react";
+
 import logo from "../../assets/images/logo/Auctobidlogo.png";
 import ThemeToggle from "../../pages/Dashboard/ThemeToggle";
 
@@ -12,10 +14,14 @@ import {
   FaBell,
   FaUserCircle,
   FaSignOutAlt,
+  FaBars,
+  FaTimes,
 } from "react-icons/fa";
 
 function Navbar() {
   const navigate = useNavigate();
+
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const isLoggedIn = Boolean(localStorage.getItem("token"));
 
@@ -44,7 +50,7 @@ function Navbar() {
   return (
     <nav className="sticky top-0 z-50 w-full bg-white shadow-md dark:bg-slate-900">
       <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 sm:px-6 lg:px-8">
-        {/* Logo */}
+        {/* ================= Logo ================= */}
 
         <Link to="/" className="flex items-center gap-2">
           <img
@@ -58,9 +64,9 @@ function Navbar() {
           </h2>
         </Link>
 
-        {/* Navigation */}
+        {/* ================= Desktop Navigation ================= */}
 
-        <ul className="hidden items-center gap-6 font-medium text-gray-700 lg:flex xl:gap-8 dark:text-gray-200">
+        <ul className="hidden lg:flex items-center gap-6 font-medium text-gray-700 xl:gap-8 dark:text-gray-200">
           {links.map((item) => {
             const Icon = item.icon;
 
@@ -78,53 +84,134 @@ function Navbar() {
           })}
         </ul>
 
-        {/* Right Side */}
+        {/* ================= Desktop Right Side ================= */}
 
-        {!isLoggedIn ? (
-          <div className="flex items-center gap-2 sm:gap-4">
-            <ThemeToggle />
+        <div className="hidden lg:flex items-center gap-5">
+          {!isLoggedIn ? (
+            <>
+              <ThemeToggle />
 
-            <Link
-              to="/login"
-              className="rounded-full border border-gray-300 px-3 py-2 text-sm font-medium text-gray-700 transition hover:border-blue-600 hover:text-blue-600 sm:px-6 dark:border-gray-600 dark:text-white"
-            >
-              Login
-            </Link>
+              <Link
+                to="/login"
+                className="rounded-full border border-gray-300 px-5 py-2 font-medium text-gray-700 transition hover:border-blue-600 hover:text-blue-600 dark:border-gray-600 dark:text-white"
+              >
+                Login
+              </Link>
 
-            <Link
-              to="/register"
-              className="flex items-center gap-2 rounded-full bg-blue-600 px-3 py-2 text-sm font-semibold text-white transition hover:bg-blue-700 sm:px-6"
-            >
-              <span className="hidden sm:inline">Sign Up</span>
-              <FaArrowRight />
-            </Link>
-          </div>
-        ) : (
-          <div className="flex items-center gap-2 sm:gap-4 lg:gap-5">
-            <button className="text-lg text-gray-700 transition hover:text-blue-600 sm:text-xl dark:text-white">
-              <FaBell />
-            </button>
+              <Link
+                to="/register"
+                className="flex items-center gap-2 rounded-full bg-blue-600 px-5 py-2 font-semibold text-white transition hover:bg-blue-700"
+              >
+                Sign Up
+                <FaArrowRight />
+              </Link>
+            </>
+          ) : (
+            <>
+              <button className="text-xl text-gray-700 transition hover:text-blue-600 dark:text-white">
+                <FaBell />
+              </button>
 
-            <ThemeToggle />
+              <ThemeToggle />
 
-            <Link
-              to="/profile"
-              className="flex items-center gap-2 rounded-full bg-gray-100 px-3 py-2 transition hover:bg-gray-200 dark:bg-slate-800 dark:text-white dark:hover:bg-slate-700"
-            >
-              <FaUserCircle className="text-lg sm:text-xl" />
-              <span className="hidden lg:inline">Profile</span>
-            </Link>
+              <Link
+                to="/profile"
+                className="flex items-center gap-2 rounded-full bg-gray-100 px-4 py-2 transition hover:bg-gray-200 dark:bg-slate-800 dark:text-white dark:hover:bg-slate-700"
+              >
+                <FaUserCircle className="text-xl" />
+                Profile
+              </Link>
 
-            <button
-              onClick={handleLogout}
-              className="flex items-center gap-2 rounded-full bg-red-500 px-3 py-2 text-sm font-medium text-white transition hover:bg-red-600 sm:px-5"
-            >
-              <FaSignOutAlt />
-              <span className="hidden md:inline">Logout</span>
-            </button>
-          </div>
-        )}
+              <button
+                onClick={handleLogout}
+                className="flex items-center gap-2 rounded-full bg-red-500 px-5 py-2 font-medium text-white transition hover:bg-red-600"
+              >
+                <FaSignOutAlt />
+                Logout
+              </button>
+            </>
+          )}
+        </div>
+
+        {/* ================= Mobile Right Side ================= */}
+
+        <div className="flex items-center gap-3 lg:hidden">
+          <ThemeToggle />
+
+          <button
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            className="text-2xl text-gray-700 dark:text-white"
+          >
+            {mobileMenuOpen ? <FaTimes /> : <FaBars />}
+          </button>
+        </div>
       </div>
+
+      {/* ================= Mobile Menu ================= */}
+
+      {mobileMenuOpen && (
+        <div className="border-t bg-white px-6 py-6 shadow-lg dark:border-slate-700 dark:bg-slate-900 lg-hidden">
+          <div className="flex flex-col gap-5">
+            {links.map((item) => {
+              const Icon = item.icon;
+
+              return (
+                <Link
+                  key={item.name}
+                  to={item.path}
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="flex items-center gap-3 text-lg font-medium text-gray-700 dark:text-white"
+                >
+                  <Icon />
+                  {item.name}
+                </Link>
+              );
+            })}
+
+            {isLoggedIn ? (
+              <>
+                <Link
+                  to="/profile"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="flex items-center gap-3 text-lg font-medium dark:text-white"
+                >
+                  <FaUserCircle />
+                  Profile
+                </Link>
+
+                <button
+                  onClick={() => {
+                    setMobileMenuOpen(false);
+                    handleLogout();
+                  }}
+                  className="flex items-center gap-3 text-left text-lg font-medium text-red-500"
+                >
+                  <FaSignOutAlt />
+                  Logout
+                </button>
+              </>
+            ) : (
+              <>
+                <Link
+                  to="/login"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="text-lg font-medium dark:text-white"
+                >
+                  Login
+                </Link>
+
+                <Link
+                  to="/register"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="text-lg font-medium text-blue-600"
+                >
+                  Sign Up
+                </Link>
+              </>
+            )}
+          </div>
+        </div>
+      )}
     </nav>
   );
 }

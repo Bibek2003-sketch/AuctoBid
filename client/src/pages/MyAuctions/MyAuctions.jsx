@@ -14,6 +14,8 @@ import { Link } from "react-router-dom";
 // Icons
 // ======================================================
 
+import Swal from "sweetalert2";
+
 import {
   FaPlus,
   FaSearch,
@@ -25,6 +27,7 @@ import {
 
 import { getMyAuctions } from "../../api/auctionApi";
 import MyAuctionCard from "../../components/MyAuctionCard/MyAuctionCard";
+import { deleteAuction } from "../../api/auctionApi";
 
 // ======================================================
 // My Auctions Page
@@ -70,14 +73,67 @@ function MyAuctions() {
     fetchMyAuctions();
   }, []);
 
+  // ======================================================
+  // Delete Auction
+  //
+  // 1. Ask for confirmation
+  // 2. Delete from backend
+  // 3. Remove from UI
+  // ======================================================
+
+  const handleDeleteAuction = async (auctionId) => {
+    // Confirmation dialog
+    const result = await Swal.fire({
+      title: "Delete Auction?",
+      text: "This action cannot be undone.",
+      icon: "warning",
+
+      showCancelButton: true,
+
+      confirmButtonText: "Yes, Delete",
+      cancelButtonText: "Cancel",
+
+      confirmButtonColor: "#dc2626",
+      cancelButtonColor: "#2563eb",
+    });
+
+    // User cancelled
+    if (!result.isConfirmed) return;
+
+    try {
+      // Delete from database
+      const data = await deleteAuction(auctionId);
+
+      // Remove from React state
+      setAuctions((prev) =>
+        prev.filter((auction) => auction._id !== auctionId),
+      );
+
+      // Success message
+      Swal.fire({
+        icon: "success",
+        title: "Deleted!",
+        text: data.message,
+        timer: 1800,
+        showConfirmButton: false,
+      });
+    } catch (error) {
+      Swal.fire({
+        icon: "error",
+        title: "Delete Failed",
+        text: error.response?.data?.message || "Something went wrong.",
+      });
+    }
+  };
+
   // show active auctions
   const activeAuctions = auctions.filter(
-    (auction) => auction.status === "active"
+    (auction) => auction.status === "active",
   ).length;
 
   // ended auctions
   const endedAuctions = auctions.filter(
-    (auction) => auction.status === "ended"
+    (auction) => auction.status === "ended",
   ).length;
   // total bids across all auctions
   const totalBids = auctions.reduce((total, auction) => {
@@ -260,9 +316,13 @@ function MyAuctions() {
               </p>
             </div>
           ) : (
-            filteredAuctions.map((auction) => <MyAuctionCard 
-            key={auction.id}
-            auction={auction} />)
+            filteredAuctions.map((auction) => (
+              <MyAuctionCard
+                key={auction._id}
+                auction={auction}
+                onDelete={handleDeleteAuction}
+              />
+            ))
           )}
         </div>
       </div>
