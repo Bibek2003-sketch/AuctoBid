@@ -77,12 +77,18 @@ function CreateAuction() {
         data.append("title", formData.title);
         data.append("description", formData.description);
         data.append("category", formData.category);
-        data.append("image", formData.image);
+        if (formData.image) {
+          data.append("image", formData.image);
+        }
         data.append("startingBid", formData.startingBid);
         data.append("minimumIncrement", formData.minimumIncrement);
         data.append("endTime", formData.endTime);
 
-        response = await createAuction(data);
+        if (id) {
+          response = await updateAuction(id, data);
+        } else {
+          response = await createAuction(data);
+        }
       }
 
       toast.success(response.message);

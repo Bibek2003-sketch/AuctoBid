@@ -124,11 +124,14 @@ const getAuctionById = async (req, res) => {
 
 const updateAuction = async (req, res) => {
   await updateExpiredAuctions();
-  try {
-    // Find auction
-    const auction = await Auctions.findById(req.params.id);
 
-    // check if auction exists
+  try {
+    // ==========================================
+    // Find Auction
+    // ==========================================
+
+    const auction = await Auction.findById(req.params.id);
+
     if (!auction) {
       return res.status(404).json({
         success: false,
@@ -136,7 +139,10 @@ const updateAuction = async (req, res) => {
       });
     }
 
-    // check seller ownership
+    // ==========================================
+    // Check Seller Ownership
+    // ==========================================
+
     if (auction.seller.toString() !== req.user.id) {
       return res.status(403).json({
         success: false,
@@ -144,10 +150,34 @@ const updateAuction = async (req, res) => {
       });
     }
 
-    // update auction
+    // ==========================================
+    // Prepare Update Data
+    // ==========================================
+
+    const updateData = {
+      title: req.body.title,
+      description: req.body.description,
+      category: req.body.category,
+      startingBid: req.body.startingBid,
+      minimumIncrement: req.body.minimumIncrement,
+      endTime: req.body.endTime,
+    };
+
+    // ==========================================
+    // Update Image (only if new image uploaded)
+    // ==========================================
+
+    if (req.file) {
+      updateData.image = req.file.path;
+    }
+
+    // ==========================================
+    // Update Auction
+    // ==========================================
+
     const updatedAuction = await Auction.findByIdAndUpdate(
       req.params.id,
-      req.body,
+      updateData,
       {
         new: true,
         runValidators: true,
@@ -160,6 +190,8 @@ const updateAuction = async (req, res) => {
       auction: updatedAuction,
     });
   } catch (error) {
+    console.error(error);
+
     res.status(500).json({
       success: false,
       message: error.message,
